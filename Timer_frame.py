@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-# Filename: pycalc.py
+# Filename: pydoro.py
 
-"""PyCalc is a simple calculator built using Python and PyQt5."""
+"""pydoro is a simple calculator built using Python and PyQt5."""
 
 import sys
 
@@ -10,6 +10,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
+import PyQt5.QtWidgets
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QGridLayout
@@ -19,13 +20,43 @@ from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QGridLayout, QWidget, QDesktopWidget
 
 from PyQt5.QtCore import QTimer, QTime, Qt, QDateTime, QDate
- 
+
+
+# from functools import partial
+import functools
+
 import datetime 
 import time
+
+# Create a Controller class to connect the GUI and the model
+class PyCalcCtrl:
+    """PyCalc Controller class."""
+    def __init__(self, view):
+        """Controller initializer."""
+        self._view = view
+        # Connect signals and slots
+        self._connectSignals()
+
+    def _buildExpression(self, sub_exp):
+        """Build expression."""
+        expression = self._view.displayText() + sub_exp
+        self._view.setDisplayText(expression)
+
+    def _connectSignals(self):
+        """Connect signals and slots."""
+        for btnText, btn in self._view.buttons.items():
+            if btnText not in {'=', 'C'}:
+                btn.clicked.connect(partial(self._buildExpression, btnText))
+
+        self._view.buttons['C'].clicked.connect(self._view.clearDisplay)
 
 
 # Create a subclass of QMainWindow to setup the calculator's GUI
 class PyPomodoro(QMainWindow): 
+
+
+    QMainWindow.pause = True
+    QMainWindow.countDown = 25*60 
 
     def _createDisplay(self):
         """Create the display."""
@@ -46,26 +77,50 @@ class PyPomodoro(QMainWindow):
         # currentTime = QTime.currentTime()
         # displayTxt = currentTime.toString('hh:mm:ss')  
  
-        now = QTime.currentTime() 
-        numOfSeconds = self.t0.secsTo( now ) 
-        countDown = 25*60 - numOfSeconds
-        displayTxt = time.strftime('%M:%S', time.gmtime(countDown))
- 
+        if QMainWindow.pause == False: 
+            QMainWindow.countDown = QMainWindow.countDown - 1
+            displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
+        #     print(self.pause) 
+        else: 
+            displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
         self.display.setText(displayTxt)
-
+ 
     def _createButtons(self): 
+
+        def press_start(): 
+            # """Slot function."""
+            if btn.text() == 'Start':
+                btn.setText("Pause") 
+                QMainWindow.pause = False
+                QMainWindow.t0 = QTime.currentTime()  
+            else:
+                btn.setText("Start")
+                QMainWindow.pause = True  
+
+
+        def press_stop(): 
+            # """Slot function.""" 
+            stp.setText("Stop") 
+            btn.setText("Start") 
+            QMainWindow.countDown = 25*60 
+            QMainWindow.pause = True  
+
         # layout = QVBoxLayout()
-        self.generalLayout.addWidget(QPushButton('Start'))
-        self.generalLayout.addWidget(QPushButton('Pauze'))
-        self.generalLayout.addWidget(QPushButton('Stop'))
+        btn = QPushButton('Start')
+        btn.clicked.connect( press_start )  # Connect clicked to press_start()
+        self.generalLayout.addWidget( btn )
+
+        stp = QPushButton('Stop')
+        stp.clicked.connect( press_stop)  # Connect clicked to press_start()
+        self.generalLayout.addWidget( stp )
+
+ 
         # self.setLayout(layout)
    
     def createTextbox(self):
         # self.textbox = QLineEdit(self)
         self.generalLayout.addWidget(  QLineEdit('Task') )
         self.generalLayout.addWidget(  QLineEdit('Label') )
-
-
 
 
 
@@ -96,7 +151,6 @@ class PyPomodoro(QMainWindow):
         self.setFixedSize( dx,dy)
 
 
-
         # Set the central widget
         self.generalLayout = QVBoxLayout()
         self._centralWidget = QWidget(self)
@@ -111,8 +165,7 @@ class PyPomodoro(QMainWindow):
 
 
         # startup time
-        self.t0 = QTime.currentTime()  
-        print( self.t0.toString('hh:mm:ss') )  
+        print( QTime.currentTime().toString('hh:mm:ss') )  
  
 
 
@@ -120,12 +173,16 @@ class PyPomodoro(QMainWindow):
 def main():
     """Main function."""
     # Create an instance of QApplication
-    pycalc = QApplication(sys.argv)
+    pydoro = QApplication(sys.argv) 
+    pydoro.setStyle('Fusion') 
+    # pydoro.setStyleSheet("QPushButton { margin: 10ex; }")
     # Show the calculator's GUI
     view = PyPomodoro()
     view.show()
     # Execute the calculator's main loop
-    sys.exit(pycalc.exec_())
+    sys.exit(pydoro.exec_())
 
 if __name__ == '__main__':
+ 
     main()
+
