@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
 # Filename: pydoro.py
-
-"""pydoro is a simple calculator built using Python and PyQt5."""
-
+ 
 import sys
 
 # Import QApplication and the required widgets from PyQt5.QtWidgets
@@ -11,6 +9,11 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
 import PyQt5.QtWidgets
+from PyQt5 import QtWidgets, QtGui
+
+import os 
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QGridLayout
@@ -21,18 +24,14 @@ from PyQt5.QtWidgets import QGridLayout, QWidget, QDesktopWidget
 
 from PyQt5.QtCore import QTimer, QTime, Qt, QDateTime, QDate
 
+from PyQt5.QtWidgets import QSystemTrayIcon, QApplication, QMenu
+from PyQt5.QtGui import QIcon
 
-# from functools import partial
-import functools
-
+import functools 
 import datetime 
-import time
- 
-
+import time 
 import csv
 
-
-  
  
 def append_list_as_row(file_name, list_of_elem):
     # Open file in append mode
@@ -41,32 +40,32 @@ def append_list_as_row(file_name, list_of_elem):
         csv_writer = csv.writer(write_obj)
         # Add contents of list as last row in the csv file
         csv_writer.writerow(list_of_elem)
-
-
+ 
 # Create a subclass of QMainWindow to setup the calculator's GUI
-class PyPomodoro(QMainWindow): 
-
-    QMainWindow.n_sec = 10
+class PyPomodoro(QMainWindow):  
+    QMainWindow.n_sec = 25*60
     QMainWindow.pause = True
     QMainWindow.countDown = QMainWindow.n_sec
 
-    QMainWindow.task = 'code'
-    QMainWindow.label = 'study'
+    QMainWindow.taskboxText = 'empytTask'
+    QMainWindow.lineboxText = 'emptyLabel'
     QMainWindow.date = QDate.currentDate().toString("dd/MM/yyyy") 
     QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
-
-
-
-
+  
     def _createDisplay(self):
         """Create the display."""
         # Create the display widget
         self.display = QLineEdit()
         # Set some display's properties
-        self.display.setFixedHeight(35)
+        self.display.setFixedHeight(50)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setReadOnly(True)
-        # Add the display to the general layout
+
+        font = self.display.font()
+        font.setPointSize(30)
+        self.display.setFont( font)      # set font
+ 
+                # Add the display to the general layout
         self.generalLayout.addWidget(self.display)
 
         timer = QTimer(self)
@@ -88,80 +87,84 @@ class PyPomodoro(QMainWindow):
             QMainWindow.pause = True 
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown)) 
             print('log countdown')
-
-
-
+ 
             output_list= [QMainWindow.date, 
                 QMainWindow.t0, 
-                QMainWindow.task, 
-                QMainWindow.label, 
+                QMainWindow.taskboxText, 
+                QMainWindow.lineboxText,
                 str(QMainWindow.n_sec - QMainWindow.countDown)]  
             append_list_as_row('task_log.csv', output_list) 
-            print(QMainWindow.date, QMainWindow.t0, QMainWindow.task, QMainWindow.label, QMainWindow.n_sec - QMainWindow.countDown)
+            # print(QMainWindow.date, QMainWindow.t0, QMainWindow.task, QMainWindow.label, QMainWindow.n_sec - QMainWindow.countDown)
 
+            print( output_list)
             QMainWindow.countDown = QMainWindow.n_sec
 
         self.display.setText(displayTxt)
  
-    def _createButtons(self): 
+    def _createButtons(self):  
+        def press_start(self):    
+            if QMainWindow.countDown == QMainWindow.n_sec:
+                QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
+                QMainWindow.taskboxText= taskbox.text()
+                QMainWindow.lineboxText= linebox.text()
+                print(QMainWindow.taskboxText, QMainWindow.lineboxText)
+            QMainWindow.pause = False 
 
-        def press_start(): 
-            # """Slot function."""
-            if btn.text() == 'Start':
-                if QMainWindow.countDown == QMainWindow.n_sec:
-                    QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
-                btn.setText("Pause") 
-                QMainWindow.pause = False
-                # QMainWindow.t0 = QTime.currentTime()  
-            else:
-                btn.setText("Start")
-                QMainWindow.pause = True  
-
-
-        def press_stop(): 
-            # """Slot function.""" 
+        def press_pause(self):  
+            btn.setText("Start")
+            QMainWindow.pause = True  
+ 
+        def press_stop():  
             stp.setText("Stop") 
             btn.setText("Start") 
             print('log countdown') 
             output_list= [QMainWindow.date, 
                 QMainWindow.t0, 
-                QMainWindow.task, 
-                QMainWindow.label, 
+                QMainWindow.taskboxText, 
+                QMainWindow.lineboxText,
                 str(QMainWindow.n_sec - QMainWindow.countDown)]  
             append_list_as_row('task_log.csv', output_list) 
-            print(QMainWindow.date, QMainWindow.t0, QMainWindow.task, QMainWindow.label, QMainWindow.n_sec - QMainWindow.countDown)
+            print( output_list)
 
 
             QMainWindow.countDown = QMainWindow.n_sec#25*60 
             QMainWindow.pause = True  
 
-        # layout = QVBoxLayout()
-        btn = QPushButton('Start')
+
+ 
+        taskbox = QLineEdit( )
+        # textboxValue= taskbox.text() 
+        self.generalLayout.addWidget( taskbox   )
+  
+        linebox = QLineEdit( )
+        # textboxValue= linebox.text() 
+        self.generalLayout.addWidget( linebox   )
+ 
+        btn = QPushButton('Start',self)
         btn.clicked.connect( press_start )  # Connect clicked to press_start()
         self.generalLayout.addWidget( btn )
+ 
+        pau = QPushButton('Pause')
+        pau.clicked.connect( press_pause)  # Connect clicked to press_start()
+        self.generalLayout.addWidget( pau)
+
 
         stp = QPushButton('Stop')
         stp.clicked.connect( press_stop)  # Connect clicked to press_start()
         self.generalLayout.addWidget( stp )
+  
 
- 
-        # self.setLayout(layout)
-   
     def createTextbox(self):
         # self.textbox = QLineEdit(self)
-        tsk = QLineEdit('Task')
+        # tsk = QLineEdit('Task')
         # btn.clicked.connect( press_start ) 
-        self.generalLayout.addWidget( tsk  )
-        self.generalLayout.addWidget(  QLineEdit('Label') )
+        self.generalLayout.addWidget( QLineEdit('Emptry1') )
 
 
 
 
 
-
-
-
-
+ 
 
     def __init__(self):
         """View initializer."""
@@ -174,12 +177,24 @@ class PyPomodoro(QMainWindow):
         # first attempt at transparency 
         self.setWindowOpacity(0.9)
 
+
+        # this will hide the title bar 
+        self.setWindowFlag(Qt.FramelessWindowHint)  
+
+        # change tray icon 
+        # self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'tomato.png'))  
+ 
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        picture_loc = scriptDir + os.path.sep + 'tomato.png' 
+        self.setWindowIcon(QIcon( picture_loc) )
+        # win.setWindowIcon (QIcon('logo.png'))
+
         # set screen geometry
         screenGeom = QDesktopWidget().availableGeometry() 
         sh = screenGeom.height()
         sw = screenGeom.width()
-        dx =200
-        dy = 500 
+        dx = 130
+        dy = 200 
         self.setWindowTitle('PyQt5 App') 
         self.setWindowTitle('PyPomodoro')
         self.setGeometry(sw-dx,sh-dy,dx,dy) 
@@ -194,10 +209,10 @@ class PyPomodoro(QMainWindow):
 
 
         # Create the display and the buttons
-        self.createTextbox()
         self._createDisplay()
         self._createButtons()
- 
+        # not used currently 
+        # self.createTextbox() 
  
 
 
@@ -206,11 +221,11 @@ def main():
     """Main function."""
     # Create an instance of QApplication
     pydoro = QApplication(sys.argv) 
-    pydoro.setStyle('Fusion') 
-    # pydoro.setStyleSheet("QPushButton { margin: 10ex; }")
+    pydoro.setStyle('Fusion')  
     # Show the calculator's GUI
     view = PyPomodoro()
     view.show()
+
     # Execute the calculator's main loop
     sys.exit(pydoro.exec_())
 
