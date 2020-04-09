@@ -31,13 +31,24 @@ import functools
 import datetime 
 import time 
 import csv
+import os.path
+from os import path
 
  
 def append_list_as_row(file_name, list_of_elem):
-    # Open file in append mode
+
+    fileHeader = [ "date","start time","Task","Label","Duration (s)"]
+
+    if not path.exists(file_name):
+        bool_add_header = True
+    else:
+        bool_add_header = False 
+
     with open(file_name, 'a+', newline='') as write_obj:
         # Create a writer object from csv module
         csv_writer = csv.writer(write_obj)
+        if bool_add_header:
+            csv_writer.writerow( fileHeader)
         # Add contents of list as last row in the csv file
         csv_writer.writerow(list_of_elem)
  
@@ -48,10 +59,16 @@ class PyPomodoro(QMainWindow):
     QMainWindow.countDown = QMainWindow.n_sec
 
     QMainWindow.taskboxText = 'empytTask'
-    QMainWindow.lineboxText = 'emptyLabel'
-    QMainWindow.date = QDate.currentDate().toString("dd/MM/yyyy") 
+    QMainWindow.labelboxText = 'emptyLabel'#'emptyLabel'
+    QMainWindow.date = QDate.currentDate().toString("yyyy/MM/dd") 
     QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
   
+
+    today = datetime.date.today()
+    date_Monday = today - datetime.timedelta(days=today.weekday()) 
+    QMainWindow.fileName = 'log_files/' + 'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv'
+
+ 
     def _createDisplay(self):
         """Create the display."""
         # Create the display widget
@@ -82,21 +99,18 @@ class PyPomodoro(QMainWindow):
         #     print(self.pause) 
         elif (QMainWindow.pause == True): 
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
-        else:
-            print('reset time')
+        else: 
             QMainWindow.pause = True 
-            displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown)) 
-            print('log countdown')
+            displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))  
  
             output_list= [QMainWindow.date, 
                 QMainWindow.t0, 
                 QMainWindow.taskboxText, 
-                QMainWindow.lineboxText,
+                QMainWindow.labelboxText,
                 str(QMainWindow.n_sec - QMainWindow.countDown)]  
-            append_list_as_row('task_log.csv', output_list) 
+            append_list_as_row( QMainWindow.fileName , output_list) 
             # print(QMainWindow.date, QMainWindow.t0, QMainWindow.task, QMainWindow.label, QMainWindow.n_sec - QMainWindow.countDown)
-
-            print( output_list)
+ 
             QMainWindow.countDown = QMainWindow.n_sec
 
         self.display.setText(displayTxt)
@@ -105,9 +119,13 @@ class PyPomodoro(QMainWindow):
         def press_start(self):    
             if QMainWindow.countDown == QMainWindow.n_sec:
                 QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
-                QMainWindow.taskboxText= taskbox.text()
-                QMainWindow.lineboxText= linebox.text()
-                print(QMainWindow.taskboxText, QMainWindow.lineboxText)
+                QMainWindow.taskboxText= taskbox.text() 
+
+                QMainWindow.labelboxText = labelbox.currentText()
+ 
+                if QMainWindow.labelboxText not in label_items:
+                    label_items.append(QMainWindow.labelboxText )
+                    labelbox.addItem( QMainWindow.labelboxText )    
             QMainWindow.pause = False 
 
         def press_pause(self):  
@@ -116,15 +134,13 @@ class PyPomodoro(QMainWindow):
  
         def press_stop():  
             stp.setText("Stop") 
-            btn.setText("Start") 
-            print('log countdown') 
+            btn.setText("Start")  
             output_list= [QMainWindow.date, 
                 QMainWindow.t0, 
                 QMainWindow.taskboxText, 
-                QMainWindow.lineboxText,
+                QMainWindow.labelboxText,
                 str(QMainWindow.n_sec - QMainWindow.countDown)]  
-            append_list_as_row('task_log.csv', output_list) 
-            print( output_list)
+            append_list_as_row( QMainWindow.fileName, output_list)  
 
 
             QMainWindow.countDown = QMainWindow.n_sec#25*60 
@@ -136,10 +152,18 @@ class PyPomodoro(QMainWindow):
         # textboxValue= taskbox.text() 
         self.generalLayout.addWidget( taskbox   )
   
-        linebox = QLineEdit( )
-        # textboxValue= linebox.text() 
-        self.generalLayout.addWidget( linebox   )
- 
+        # linebox = QLineEdit( )
+        # # textboxValue= linebox.text() 
+        # self.generalLayout.addWidget( linebox   )
+
+        labelbox = QComboBox(self)
+        labelbox.setEditable(True)
+        label_items = ["Pendulum","FEA","Jobsearch","Study"]
+        for label in label_items:
+            labelbox.addItem(label)  
+        self.generalLayout.addWidget( labelbox )
+
+
         btn = QPushButton('Start',self)
         btn.clicked.connect( press_start )  # Connect clicked to press_start()
         self.generalLayout.addWidget( btn )
@@ -152,6 +176,8 @@ class PyPomodoro(QMainWindow):
         stp = QPushButton('Stop')
         stp.clicked.connect( press_stop)  # Connect clicked to press_start()
         self.generalLayout.addWidget( stp )
+
+
   
 
     def createTextbox(self):
@@ -176,29 +202,26 @@ class PyPomodoro(QMainWindow):
     
         # first attempt at transparency 
         self.setWindowOpacity(0.9)
-
-
-        # this will hide the title bar 
+ 
+        # # this will hide the title bar 
         self.setWindowFlag(Qt.FramelessWindowHint)  
 
-        # change tray icon 
+        # change tray icon  (not working )
         # self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'tomato.png'))  
- 
         scriptDir = os.path.dirname(os.path.realpath(__file__))
         picture_loc = scriptDir + os.path.sep + 'tomato.png' 
         self.setWindowIcon(QIcon( picture_loc) )
-        # win.setWindowIcon (QIcon('logo.png'))
 
         # set screen geometry
         screenGeom = QDesktopWidget().availableGeometry() 
         sh = screenGeom.height()
         sw = screenGeom.width()
         dx = 130
-        dy = 200 
+        dy = 250 
         self.setWindowTitle('PyQt5 App') 
         self.setWindowTitle('PyPomodoro')
         self.setGeometry(sw-dx,sh-dy,dx,dy) 
-        self.setFixedSize( dx,dy)
+        # self.setFixedSize( dx,dy)
 
 
         # Set the central widget
