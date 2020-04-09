@@ -18,3 +18,7 @@ date,start time,Task,Label,Duration (s)
 2020/04/09,12:26:46,Skype ,Other,1500
 2020/04/09,12:58:31,Write email,Jobsearch,1500
 2020/04/09,13:27:43,Write email,Jobsearch,1061 
+2020/04/09,15:21:10,,newItem,3
+2020/04/09,15:24:45,test1,addLabel,3
+2020/04/09,15:26:01,,"newLabel, remove",4
+2020/04/09,15:51:19,,newLabel2 ,3

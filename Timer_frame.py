@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
 import PyQt5.QtWidgets
 from PyQt5 import QtWidgets, QtGui
-
+import json
 import os 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -64,7 +64,13 @@ class PyPomodoro(QMainWindow):
     QMainWindow.date = QDate.currentDate().toString("yyyy/MM/dd") 
     QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
   
+    # print( self.labelOptions) 
 
+
+    QMainWindow.label_filename = 'label_options.json'
+    with open(  QMainWindow.label_filename , 'r') as f:  
+         QMainWindow.labelOptions = json.load(f)  
+ 
     today = datetime.date.today()
     date_Monday = today - datetime.timedelta(days=today.weekday()) 
     QMainWindow.fileName = 'log_files/' + 'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv'
@@ -97,8 +103,7 @@ class PyPomodoro(QMainWindow):
         red_seconds = 60
         if (QMainWindow.pause == False) & (QMainWindow.countDown>0): 
             QMainWindow.countDown = QMainWindow.countDown - 1
-            displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
-        #     print(self.pause) 
+            displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown)) 
 
             if (QMainWindow.countDown < red_seconds): 
                 p = self.palette() 
@@ -139,9 +144,8 @@ class PyPomodoro(QMainWindow):
                 QMainWindow.taskboxText, 
                 QMainWindow.labelboxText,
                 str(QMainWindow.n_sec - QMainWindow.countDown)]  
-            append_list_as_row( QMainWindow.fileName , output_list) 
-            # print(QMainWindow.date, QMainWindow.t0, QMainWindow.task, QMainWindow.label, QMainWindow.n_sec - QMainWindow.countDown)
- 
+            append_list_as_row( QMainWindow.fileName , output_list)  
+
             QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
             QMainWindow.countDown = QMainWindow.n_sec
 
@@ -155,9 +159,14 @@ class PyPomodoro(QMainWindow):
 
                 QMainWindow.labelboxText = labelbox.currentText()
  
-                if QMainWindow.labelboxText not in label_items:
-                    label_items.append(QMainWindow.labelboxText )
+                if QMainWindow.labelboxText not in QMainWindow.labelOptions:
+                    QMainWindow.labelOptions.append(QMainWindow.labelboxText )
                     labelbox.addItem( QMainWindow.labelboxText )    
+
+                    # add new label option to dict 
+                    with open(QMainWindow.label_filename, 'w') as outfile:
+                        json.dump(QMainWindow.labelOptions, outfile)
+
             QMainWindow.pause = False 
 
         def press_pause(self):  
@@ -191,8 +200,8 @@ class PyPomodoro(QMainWindow):
 
         labelbox = QComboBox(self)
         labelbox.setEditable(True)
-        label_items = ["Other","ODE project","FEA project","Jobsearch","Study"]
-        for label in label_items:
+
+        for label in  QMainWindow.labelOptions:
             labelbox.addItem(label)  
         self.generalLayout.addWidget( labelbox )
 
@@ -281,7 +290,6 @@ class PyPomodoro(QMainWindow):
         # not used currently 
         # self.createTextbox() 
  
-
 
 # Client code
 def main():
