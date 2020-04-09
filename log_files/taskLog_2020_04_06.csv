@@ -1,11 +1,20 @@
 date,start time,Task,Label,Duration (s)
-2020/04/08,11:09:00,Organize folders,Pendulum,1500
-2020/04/08,11:47:15,Organize folders,Pendulum,546
-2020/04/08,12:01:57,NIFTI Zoom,Meetings,1500
-2020/04/08,12:27:02,NIFTI Zoom,Meetings,1500
-2020/04/08,12:55:05,NIFTI Zoom,Meetings,130
-2020/04/08,13:45:24,Put ideas on paper,Flexible Pendulum,1500
+2020/04/08,11:09:00,Organize folders,Other,1500
+2020/04/08,11:47:15,Organize folders,Other,546
+2020/04/08,12:01:57,Zoom,Meetings,1500
+2020/04/08,12:27:02,Zoom,Meetings,1500
+2020/04/08,12:55:05,Zoom,Meetings,130
+2020/04/08,13:45:24,Put ideas on paper,Other,1500
 2020/04/08,16:46:20,empytTask,emptyLabel,0 
-2020/04/08,17:00:24,empytTask,emptyLabel,0
-2020/04/08,17:00:28,,Pendulum,2
-2020/04/08,17:00:28,,Pendulum,0
+2020/04/08,20:24:53,Some task,Jobsearch,5
+2020/04/09,08:27:23,Some Coding in functions,Study,1500
+2020/04/09,09:12:04,Skype,Other,1500
+2020/04/09,09:50:44,Some Coding,Study,1500
+2020/04/09,10:22:48,Some Coding,Study,1500
+2020/04/09,10:55:11,Some Coding,Study,1500
+2020/04/09,11:20:30,Some Coding,Study,1500
+2020/04/09,11:46:45,Some Coding,Study,177
+2020/04/09,12:01:44,Skype ,Other,1500
+2020/04/09,12:26:46,Skype ,Other,1500
+2020/04/09,12:58:31,Write email,Jobsearch,1500
+2020/04/09,13:27:43,Write email,Jobsearch,1061 

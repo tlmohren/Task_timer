@@ -26,6 +26,7 @@ from PyQt5.QtCore import QTimer, QTime, Qt, QDateTime, QDate
 
 from PyQt5.QtWidgets import QSystemTrayIcon, QApplication, QMenu
 from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QPainter, QColor, QPen
 
 import functools 
 import datetime 
@@ -93,14 +94,44 @@ class PyPomodoro(QMainWindow):
         # currentTime = QTime.currentTime()
         # displayTxt = currentTime.toString('hh:mm:ss')  
  
+        red_seconds = 60
         if (QMainWindow.pause == False) & (QMainWindow.countDown>0): 
             QMainWindow.countDown = QMainWindow.countDown - 1
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
         #     print(self.pause) 
+
+            if (QMainWindow.countDown < red_seconds): 
+                p = self.palette() 
+
+                ratio = 1-QMainWindow.countDown / red_seconds
+                r = int(255)
+                g = int(255 - ratio*220)
+                b = int(255 - ratio*220) 
+                p.setColor(self.backgroundRole(), QColor(r,g,b)  )  
+                self.setPalette(p)
+            else:
+                p = self.palette() 
+                p.setColor(self.backgroundRole(), self.backGroundColor  )  
+                self.setPalette(p)
+                
+
         elif (QMainWindow.pause == True): 
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
+
+            if (QMainWindow.countDown > red_seconds):
+                p = self.palette() 
+                p.setColor(self.backgroundRole(), self.backGroundColor )  
+                self.setPalette(p)
+
         else: 
-            QMainWindow.pause = True 
+            p = self.palette() 
+            p.setColor(self.backgroundRole(), self.backGroundColor )  
+            self.setPalette(p)
+            # QMainWindow.pause = True # will it now just keep going? 
+
+            # p.setColor(self.backgroundRole(), Qt.white  )  
+            # self.setPalette(p)
+
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))  
  
             output_list= [QMainWindow.date, 
@@ -111,6 +142,7 @@ class PyPomodoro(QMainWindow):
             append_list_as_row( QMainWindow.fileName , output_list) 
             # print(QMainWindow.date, QMainWindow.t0, QMainWindow.task, QMainWindow.label, QMainWindow.n_sec - QMainWindow.countDown)
  
+            QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
             QMainWindow.countDown = QMainWindow.n_sec
 
         self.display.setText(displayTxt)
@@ -141,6 +173,7 @@ class PyPomodoro(QMainWindow):
                 QMainWindow.labelboxText,
                 str(QMainWindow.n_sec - QMainWindow.countDown)]  
             append_list_as_row( QMainWindow.fileName, output_list)  
+            QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
 
 
             QMainWindow.countDown = QMainWindow.n_sec#25*60 
@@ -158,7 +191,7 @@ class PyPomodoro(QMainWindow):
 
         labelbox = QComboBox(self)
         labelbox.setEditable(True)
-        label_items = ["Pendulum","FEA","Jobsearch","Study"]
+        label_items = ["Other","ODE project","FEA project","Jobsearch","Study"]
         for label in label_items:
             labelbox.addItem(label)  
         self.generalLayout.addWidget( labelbox )
@@ -220,8 +253,19 @@ class PyPomodoro(QMainWindow):
         dy = 250 
         self.setWindowTitle('PyQt5 App') 
         self.setWindowTitle('PyPomodoro')
-        self.setGeometry(sw-dx,sh-dy,dx,dy) 
-        # self.setFixedSize( dx,dy)
+        self.setGeometry(sw-dx,sh-dy,dx,dy)  
+
+        # set background color
+
+        self.setAutoFillBackground(True)
+        p = self.palette() 
+        # self.backGroundColor = QColor(224,243,248) 
+        self.backGroundColor = QColor(242,242,242) 
+        p.setColor(self.backgroundRole(),  self.backGroundColor ) 
+        # p.setColor(self.backgroundRole(),  Qt.white )  
+        # p.setColor(self.backgroundRole(), QColor(255,70,70)  )  
+        self.setPalette(p)
+ 
 
 
         # Set the central widget
