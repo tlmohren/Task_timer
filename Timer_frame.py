@@ -56,16 +56,15 @@ def append_list_as_row(file_name, list_of_elem):
 # Create a subclass of QMainWindow to setup the calculator's GUI
 class PyPomodoro(QMainWindow):  
     QMainWindow.n_sec = 25*60
+    QMainWindow.red_seconds = 60
     QMainWindow.pause = True
     QMainWindow.countDown = QMainWindow.n_sec
 
     QMainWindow.taskboxText = 'empytTask'
-    QMainWindow.labelboxText = 'emptyLabel'#'emptyLabel'
-    QMainWindow.date = QDate.currentDate().toString("yyyy/MM/dd") 
-    QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
-  
-    # print( self.labelOptions) 
+    QMainWindow.labelboxText = 'emptyLabel' 
 
+    QMainWindow.date = QDate.currentDate().toString("yyyy/MM/dd") 
+    QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
 
     QMainWindow.label_filename = 'label_options.json'
     with open(  QMainWindow.label_filename , 'r') as f:  
@@ -73,13 +72,17 @@ class PyPomodoro(QMainWindow):
  
     today = datetime.date.today()
     date_Monday = today - datetime.timedelta(days=today.weekday()) 
+
+
     QMainWindow.fileName = 'log_files/' + 'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv'
 
  
     def _createDisplay(self):
         """Create the display."""
+
         # Create the display widget
         self.display = QLineEdit()
+
         # Set some display's properties
         self.display.setFixedHeight(50)
         self.display.setAlignment(Qt.AlignRight)
@@ -89,26 +92,22 @@ class PyPomodoro(QMainWindow):
         font.setPointSize(30)
         self.display.setFont( font)      # set font
  
-                # Add the display to the general layout
+        # Add the display to the general layout
         self.generalLayout.addWidget(self.display)
 
         timer = QTimer(self)
         timer.timeout.connect(self.showTime)
         timer.start(1000) # update every second 
 
-    def showTime(self):
-        # currentTime = QTime.currentTime()
-        # displayTxt = currentTime.toString('hh:mm:ss')  
- 
-        red_seconds = 60
+    def showTime(self): 
         if (QMainWindow.pause == False) & (QMainWindow.countDown>0): 
             QMainWindow.countDown = QMainWindow.countDown - 1
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown)) 
 
-            if (QMainWindow.countDown < red_seconds): 
+            if (QMainWindow.countDown < QMainWindow.red_seconds): 
                 p = self.palette() 
 
-                ratio = 1-QMainWindow.countDown / red_seconds
+                ratio = 1-QMainWindow.countDown /QMainWindow.red_seconds
                 r = int(255)
                 g = int(255 - ratio*220)
                 b = int(255 - ratio*220) 
@@ -123,7 +122,7 @@ class PyPomodoro(QMainWindow):
         elif (QMainWindow.pause == True): 
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
 
-            if (QMainWindow.countDown > red_seconds):
+            if (QMainWindow.countDown > QMainWindow.red_seconds):
                 p = self.palette() 
                 p.setColor(self.backgroundRole(), self.backGroundColor )  
                 self.setPalette(p)
@@ -131,11 +130,7 @@ class PyPomodoro(QMainWindow):
         else: 
             p = self.palette() 
             p.setColor(self.backgroundRole(), self.backGroundColor )  
-            self.setPalette(p)
-            # QMainWindow.pause = True # will it now just keep going? 
-
-            # p.setColor(self.backgroundRole(), Qt.white  )  
-            # self.setPalette(p)
+            self.setPalette(p) 
 
             displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))  
  
@@ -176,35 +171,29 @@ class PyPomodoro(QMainWindow):
         def press_stop():  
             stp.setText("Stop") 
             btn.setText("Start")  
+
             output_list= [QMainWindow.date, 
                 QMainWindow.t0, 
                 QMainWindow.taskboxText, 
                 QMainWindow.labelboxText,
                 str(QMainWindow.n_sec - QMainWindow.countDown)]  
             append_list_as_row( QMainWindow.fileName, output_list)  
-            QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
 
-
+            QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
             QMainWindow.countDown = QMainWindow.n_sec#25*60 
             QMainWindow.pause = True  
 
 
  
-        taskbox = QLineEdit( )
-        # textboxValue= taskbox.text() 
-        self.generalLayout.addWidget( taskbox   )
-  
-        # linebox = QLineEdit( )
-        # # textboxValue= linebox.text() 
-        # self.generalLayout.addWidget( linebox   )
+        taskbox = QLineEdit( ) 
+        self.generalLayout.addWidget( taskbox   ) 
 
         labelbox = QComboBox(self)
         labelbox.setEditable(True)
 
         for label in  QMainWindow.labelOptions:
             labelbox.addItem(label)  
-        self.generalLayout.addWidget( labelbox )
-
+        self.generalLayout.addWidget( labelbox ) 
 
         btn = QPushButton('Start',self)
         btn.clicked.connect( press_start )  # Connect clicked to press_start()
@@ -218,22 +207,12 @@ class PyPomodoro(QMainWindow):
         stp = QPushButton('Stop')
         stp.clicked.connect( press_stop)  # Connect clicked to press_start()
         self.generalLayout.addWidget( stp )
-
-
-  
-
-    def createTextbox(self):
-        # self.textbox = QLineEdit(self)
-        # tsk = QLineEdit('Task')
-        # btn.clicked.connect( press_start ) 
-        self.generalLayout.addWidget( QLineEdit('Emptry1') )
-
-
-
-
-
  
 
+    def createTextbox(self): 
+        self.generalLayout.addWidget( QLineEdit('Emptry1') )
+ 
+  
     def __init__(self):
         """View initializer."""
         super().__init__()
@@ -302,9 +281,7 @@ def main():
     view.show()
 
     # Execute the calculator's main loop
-    sys.exit(pydoro.exec_())
-
+    sys.exit(pydoro.exec_()) 
 if __name__ == '__main__':
- 
-    main()
-
+     
+    main() 
