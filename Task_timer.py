@@ -155,6 +155,7 @@ class Timer_Class(QMainWindow):
 	def _createButtons(self):  
 
 		def press_start_pause(self):	
+			# self.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay))
 			# print(QMainWindow.stbutton_bool)
 			if QMainWindow.stbutton_bool:
 
@@ -165,7 +166,8 @@ class Timer_Class(QMainWindow):
 				QMainWindow.stbutton_bool = False
 
 				# turn button into pause button 
-				stpau.setText("Pause")
+				# stpau.setText("Pause")
+				stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPause))
 
 
 				# if this is start when timer is at max timer, then store starting properties
@@ -183,7 +185,8 @@ class Timer_Class(QMainWindow):
 							json.dump(QMainWindow.labelOptions, outfile)	
 
 			elif not QMainWindow.stbutton_bool:
-				stpau.setText('Start')
+				# stpau.setText('Start')
+				stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPlay))
 				QMainWindow.pause = True
 				QMainWindow.stbutton_bool = True
 
@@ -206,13 +209,10 @@ class Timer_Class(QMainWindow):
 			QMainWindow.pause = False 
 			# print( stpau.getText() )
 		def press_pause(self):  
-			btn.setText("Start")
+			# btn.setText("Start")
 			QMainWindow.pause = True  
  
-		def press_stop():  
-			stp.setText("Stop") 
-			# btn.setText("Start")  
-			stpau.setText("Start")  
+		def press_stop():   
 
 			output_list= [QMainWindow.date, 
 				QMainWindow.t0, 
@@ -225,6 +225,13 @@ class Timer_Class(QMainWindow):
 			QMainWindow.countDown = QMainWindow.n_sec#25*60 
 			QMainWindow.pause = True  
 
+		# def mediaStateChanged(self):
+		#     if self.QMainWindow.pause:
+		#         self.playButton.setIcon(
+		#                 self.style().standardIcon(QStyle.SP_MediaPause))
+		#     else:
+		#         self.playButton.setIcon(
+		#                 self.style().standardIcon(QStyle.SP_MediaPlay))
 
 
 		taskbox = QLineEdit( ) 
@@ -238,12 +245,23 @@ class Timer_Class(QMainWindow):
 		self.verticalLayout.addWidget( labelbox ) 
 
 
-		stpau = QPushButton('Start',self)
-		stpau.clicked.connect( press_start_pause ) 
+
+		# icon = QIcon()
+		# icon.addPixmap(QPixmap('normal.png'))
+		# icon.addPixmap(QStyle.SP_MediaPlay, QIcon.Active)
+		# icon.addPixmap(QStyle.SP_MediaPause, QIcon.Active)
+		# btn.setIcon(icon)
+
+		print(self) 
+		stpau = QPushButton()
+		stpau.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay))
+		stpau.clicked.connect( press_start_pause) 
+		# stpau.clicked.connect( mediaStateChanged )
 		# self.verticalLayout.addWidget(stpau )
 		# self.verticalLayout.hbox.addWidget(stpau )
   
-		stp = QPushButton('Stop')
+		stp = QPushButton()
+		stp.setIcon( self.style().standardIcon(QStyle.SP_MediaStop))
 		stp.clicked.connect( press_stop) 
 		# self.verticalLayout.addWidget( stp ) 
 		# self.verticalLayout.hbox.addWidget(stp  )
@@ -253,7 +271,6 @@ class Timer_Class(QMainWindow):
 		hbox.addWidget(stpau )
 		hbox.addWidget( stp ) 
 		self.verticalLayout.addLayout(hbox) 
-
 
 
   
@@ -274,7 +291,7 @@ class Timer_Class(QMainWindow):
 		screenGeom = QDesktopWidget().availableGeometry() 
 		sh = screenGeom.height()
 		sw = screenGeom.width()
-		dx = 130
+		dx = 230
 		dy = 250  
 		dev_offset = 300
 		self.setWindowTitle('TaskTimer')
@@ -289,8 +306,9 @@ class Timer_Class(QMainWindow):
  
 		# Set the central widget
 		self.verticalLayout = QVBoxLayout()
+		# self.grid = QGridLayout()
 		self._centralWidget = QWidget(self)
-  
+
 		self._centralWidget.setLayout(self.verticalLayout)
 		self.setCentralWidget(self._centralWidget)
 
@@ -298,14 +316,7 @@ class Timer_Class(QMainWindow):
 		self._createDisplay()
 		self._createLabelBoxes()
 		self._createButtons()
- 
-
-# 		hbox = QHBoxLayout()
-# hbox.addStretch(1)
-# hbox.addWidget(okButton)
-# hbox.addWidget(cancelButton)
-
-
+  
  
 # Client code
 def main():
