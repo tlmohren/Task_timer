@@ -94,7 +94,7 @@ class Timer_Class(QMainWindow):
 		self.display.setFont( font)	  # set font
  
 		# Add the display to the general layout
-		self.generalLayout.addWidget(self.display)
+		self.verticalLayout.addWidget(self.display)
 
 		timer = QTimer(self)
 		timer.timeout.connect(self.showTime)
@@ -147,6 +147,11 @@ class Timer_Class(QMainWindow):
 
 		self.display.setText(displayTxt)
  
+
+
+	def _createLabelBoxes(self):  
+		empty = True
+
 	def _createButtons(self):  
 
 		def press_start_pause(self):	
@@ -175,7 +180,8 @@ class Timer_Class(QMainWindow):
 
 						# add new label option to dict 
 						with open(QMainWindow.label_filename, 'w') as outfile:
-							json.dump(QMainWindow.labelOptions, outfile)		
+							json.dump(QMainWindow.labelOptions, outfile)	
+
 			elif not QMainWindow.stbutton_bool:
 				stpau.setText('Start')
 				QMainWindow.pause = True
@@ -218,34 +224,38 @@ class Timer_Class(QMainWindow):
 			QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
 			QMainWindow.countDown = QMainWindow.n_sec#25*60 
 			QMainWindow.pause = True  
- 
+
+
+
 		taskbox = QLineEdit( ) 
-		self.generalLayout.addWidget( taskbox   ) 
+		self.verticalLayout.addWidget( taskbox   ) 
 
 		labelbox = QComboBox(self)
 		labelbox.setEditable(True)
 
 		for label in  QMainWindow.labelOptions:
 			labelbox.addItem(label)  
-		self.generalLayout.addWidget( labelbox ) 
-
+		self.verticalLayout.addWidget( labelbox ) 
 
 
 		stpau = QPushButton('Start',self)
 		stpau.clicked.connect( press_start_pause ) 
-		self.generalLayout.addWidget(stpau )
- 
-		# btn = QPushButton('Start',self)
-		# btn.clicked.connect( press_start ) 
-		# self.generalLayout.addWidget( btn )
- 
-		# pau = QPushButton('Pause')
-		# pau.clicked.connect( press_pause)  
-		# self.generalLayout.addWidget( pau)
-
+		# self.verticalLayout.addWidget(stpau )
+		# self.verticalLayout.hbox.addWidget(stpau )
+  
 		stp = QPushButton('Stop')
 		stp.clicked.connect( press_stop) 
-		self.generalLayout.addWidget( stp ) 
+		# self.verticalLayout.addWidget( stp ) 
+		# self.verticalLayout.hbox.addWidget(stp  )
+
+
+		hbox = QHBoxLayout() 
+		hbox.addWidget(stpau )
+		hbox.addWidget( stp ) 
+		self.verticalLayout.addLayout(hbox) 
+
+
+
   
 	def __init__(self):
 		"""View initializer."""
@@ -278,14 +288,24 @@ class Timer_Class(QMainWindow):
 		self.setPalette(p)
  
 		# Set the central widget
-		self.generalLayout = QVBoxLayout()
+		self.verticalLayout = QVBoxLayout()
 		self._centralWidget = QWidget(self)
-		self._centralWidget.setLayout(self.generalLayout)
+  
+		self._centralWidget.setLayout(self.verticalLayout)
 		self.setCentralWidget(self._centralWidget)
 
 		# Create the display and the buttons
 		self._createDisplay()
+		self._createLabelBoxes()
 		self._createButtons()
+ 
+
+# 		hbox = QHBoxLayout()
+# hbox.addStretch(1)
+# hbox.addWidget(okButton)
+# hbox.addWidget(cancelButton)
+
+
  
 # Client code
 def main():
