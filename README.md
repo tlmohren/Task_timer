@@ -1,15 +1,17 @@
-# Work timer
-A GUI experiment using PyQt5.
+# Task Timer
+A minimal timer that logs tasks per label to csv files (one per week). The Jupyter notebook can be used to look at some data aggregation and visualization.
 
-## Goals:
-- have a timer in lower right corner that logs tasks
-- have it be a stable executable file
-- use non-intrusive graphics (e.g. transparency? )
+Timer behavior:
+- The timer counts down from 25 minutes (25:00).
+- From 01:00 to 00:00, the background turns red incrementally.
+- At time 00:00, the timer resets to 25:00, continuing counting down.
+- The stop button resets the timer to 25:00
+- The task, label, start-time, date, and time spent are logged when either time equals 00:00 or stop is pressed
 
-## Ideas to look at:
-https://stackoverflow.com/questions/33982167/pyqt5-create-semi-transparent-window-with-non-transparent-children
 
-## issues:
-- when time runs out, button is still named pause, switching function not accessible from that branch
-- graphics still too intrusive, not simple enough
-- setting taskbar icon doesn't seem to work, somehow uses blank icon, related to spyder somehow?
+Screenshot of the Task Timer| The jupyter notebook visualization of weekly data
+:-------------------------:|:-------------------------:
+<img src="./figs/task_timer_example.png" alt="drawing" style="width:300px;"/>|      <img src="./figs/example_week.png" alt="drawing" style="width:500px;"/>
+
+## Background
+The timer GUI is based on PyQt5. The executable version is built using pyinstaller, though it currently takes up over 30 Mb (and needs to be in the same folder as the Task_timer.py file?).
