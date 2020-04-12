@@ -231,6 +231,7 @@ class Timer_Class(QMainWindow):
 			QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
 			QMainWindow.countDown = QMainWindow.n_sec#25*60 
 			QMainWindow.pause = True  
+			stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPlay))
 
 		taskbox = QLineEdit( ) 
 		# self.verticalLayout.addWidget( taskbox   ) 
