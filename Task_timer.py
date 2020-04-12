@@ -55,8 +55,13 @@ def append_list_as_row(file_name, list_of_elem):
  
 # Create a subclass of QMainWindow to setup the calculator's GUI
 class Timer_Class(QMainWindow):  
-	QMainWindow.n_sec = 25*60
-	QMainWindow.red_seconds = 60
+	test_time = False
+	if test_time == False:
+		QMainWindow.n_sec = 25*60
+		QMainWindow.red_seconds = 60
+	else:
+		QMainWindow.n_sec = 15
+		QMainWindow.red_seconds = 10
 	QMainWindow.pause = True
 	QMainWindow.stbutton_bool = True
 	QMainWindow.countDown = QMainWindow.n_sec
@@ -85,7 +90,7 @@ class Timer_Class(QMainWindow):
 		self.display = QLineEdit()
 
 		# Set some display's properties
-		self.display.setFixedHeight(50)
+		# self.display.setFixedHeight(30)
 		self.display.setAlignment(Qt.AlignRight)
 		self.display.setReadOnly(True)
 
@@ -94,7 +99,9 @@ class Timer_Class(QMainWindow):
 		self.display.setFont( font)	  # set font
  
 		# Add the display to the general layout
-		self.verticalLayout.addWidget(self.display)
+		# self.verticalLayout.addWidget(self.display)
+		self.grid.addWidget(self.display,0,0,1,2) 
+
 
 		timer = QTimer(self)
 		timer.timeout.connect(self.showTime)
@@ -225,57 +232,39 @@ class Timer_Class(QMainWindow):
 			QMainWindow.countDown = QMainWindow.n_sec#25*60 
 			QMainWindow.pause = True  
 
-		# def mediaStateChanged(self):
-		#     if self.QMainWindow.pause:
-		#         self.playButton.setIcon(
-		#                 self.style().standardIcon(QStyle.SP_MediaPause))
-		#     else:
-		#         self.playButton.setIcon(
-		#                 self.style().standardIcon(QStyle.SP_MediaPlay))
-
-
 		taskbox = QLineEdit( ) 
-		self.verticalLayout.addWidget( taskbox   ) 
+		# self.verticalLayout.addWidget( taskbox   ) 
+		self.grid.addWidget( taskbox,1,0,1,2)
+
+
 
 		labelbox = QComboBox(self)
 		labelbox.setEditable(True)
 
 		for label in  QMainWindow.labelOptions:
 			labelbox.addItem(label)  
-		self.verticalLayout.addWidget( labelbox ) 
+		# self.verticalLayout.addWidget( labelbox ) 
+		self.grid.addWidget(labelbox,2,0,1,2)
 
-
-
-		# icon = QIcon()
-		# icon.addPixmap(QPixmap('normal.png'))
-		# icon.addPixmap(QStyle.SP_MediaPlay, QIcon.Active)
-		# icon.addPixmap(QStyle.SP_MediaPause, QIcon.Active)
-		# btn.setIcon(icon)
-
-		print(self) 
 		stpau = QPushButton()
 		stpau.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay))
 		stpau.clicked.connect( press_start_pause) 
-		# stpau.clicked.connect( mediaStateChanged )
-		# self.verticalLayout.addWidget(stpau )
-		# self.verticalLayout.hbox.addWidget(stpau )
   
 		stp = QPushButton()
 		stp.setIcon( self.style().standardIcon(QStyle.SP_MediaStop))
 		stp.clicked.connect( press_stop) 
-		# self.verticalLayout.addWidget( stp ) 
-		# self.verticalLayout.hbox.addWidget(stp  )
-
 
 		hbox = QHBoxLayout() 
 		hbox.addWidget(stpau )
 		hbox.addWidget( stp ) 
-		self.verticalLayout.addLayout(hbox) 
+		# self.verticalLayout.addLayout(hbox) 
+		self.grid.addWidget( stpau,3,0 )
+		self.grid.addWidget( stp,3,1 )
 
 
   
 	def __init__(self):
-		"""View initializer."""
+		"""View initializer of Timer_class."""
 		super().__init__()
 
 		# keep window on top at all times
@@ -291,11 +280,11 @@ class Timer_Class(QMainWindow):
 		screenGeom = QDesktopWidget().availableGeometry() 
 		sh = screenGeom.height()
 		sw = screenGeom.width()
-		dx = 230
-		dy = 250  
-		dev_offset = 300
-		self.setWindowTitle('TaskTimer')
-		self.setGeometry(sw-dx,sh-dy-dev_offset,dx,dy)  
+		dx = 130
+		dy = 160  
+		y_offset = 100
+		self.setWindowTitle('Task Timer')
+		self.setGeometry(sw-dx,sh-dy-y_offset,dx,dy)  
 
 		# set background color
 		self.setAutoFillBackground(True)
@@ -305,12 +294,21 @@ class Timer_Class(QMainWindow):
 		self.setPalette(p)
  
 		# Set the central widget
-		self.verticalLayout = QVBoxLayout()
-		# self.grid = QGridLayout()
+		# self.verticalLayout = QVBoxLayout()
+		self.grid = QGridLayout()
 		self._centralWidget = QWidget(self)
 
-		self._centralWidget.setLayout(self.verticalLayout)
+		# self._centralWidget.setLayout(self.verticalLayout)
+		self._centralWidget.setLayout(self.grid) 
+
 		self.setCentralWidget(self._centralWidget)
+
+
+
+
+
+
+
 
 		# Create the display and the buttons
 		self._createDisplay()
