@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Task_timer.py'],
-             pathex=['D:\\Code_projects\\Work_timer'],
+             pathex=['D:\\Code_projects\\Task_timer'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True )
+          console=True , icon='tomato.ico')

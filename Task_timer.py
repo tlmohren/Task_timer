@@ -281,7 +281,7 @@ class Timer_Class(QMainWindow):
 		screenGeom = QDesktopWidget().availableGeometry() 
 		sh = screenGeom.height()
 		sw = screenGeom.width()
-		dx = 130
+		dx = 150
 		dy = 160  
 		y_offset = 100
 		self.setWindowTitle('Task Timer')
