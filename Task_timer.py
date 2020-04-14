@@ -67,7 +67,7 @@ class Timer_Class(QMainWindow):
 	QMainWindow.countDown = QMainWindow.n_sec
 
 	QMainWindow.taskboxText = 'empytTask'
-	QMainWindow.labelboxText = 'emptyLabel' 
+	QMainWindow.labelboxText = 'Other' 
 
 	QMainWindow.date = QDate.currentDate().toString("yyyy/MM/dd") 
 	QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
@@ -88,10 +88,8 @@ class Timer_Class(QMainWindow):
 
 		# Create the display widget
 		self.display = QLineEdit()
-
-		# Set some display's properties
-		# self.display.setFixedHeight(30)
-		self.display.setAlignment(Qt.AlignRight)
+ 
+		self.display.setAlignment(Qt.AlignRight) 
 		self.display.setReadOnly(True)
 
 		font = self.display.font()
@@ -184,8 +182,12 @@ class Timer_Class(QMainWindow):
 					QMainWindow.labelboxText = labelbox.currentText()
 	 
 					if QMainWindow.labelboxText not in QMainWindow.labelOptions:
-						QMainWindow.labelOptions.append(QMainWindow.labelboxText )
-						labelbox.addItem( QMainWindow.labelboxText )	
+						if len(QMainWindow.labelboxText)>18:
+							label_cropped = QMainWindow.labelboxText[:18]
+						else:
+							label_cropped = QMainWindow.labelboxText 
+						QMainWindow.labelOptions.append( label_cropped )
+						labelbox.addItem( label_cropped )	
 
 						# add new label option to dict 
 						with open(QMainWindow.label_filename, 'w') as outfile:
@@ -205,13 +207,18 @@ class Timer_Class(QMainWindow):
 				QMainWindow.taskboxText= taskbox.text() 
 				QMainWindow.labelboxText = labelbox.currentText()
 
+				max_label_len = 16
 				if QMainWindow.labelboxText not in QMainWindow.labelOptions:
-					QMainWindow.labelOptions.append(QMainWindow.labelboxText )
-					labelbox.addItem( QMainWindow.labelboxText )	
+					if len(QMainWindow.labelboxText)>max_label_len:
+						label_cropped = QMainWindow.labelboxText[:max_label_len]
+					else:
+						label_cropped = QMainWindow.labelboxText 
+					QMainWindow.labelOptions.append( label_cropped )
+					labelbox.addItem( label_cropped )	
 
-					# add new label option to dict 
-					with open(QMainWindow.label_filename, 'w') as outfile:
-						json.dump(QMainWindow.labelOptions, outfile)
+				# add new label option to dict 
+				with open(QMainWindow.label_filename, 'w') as outfile:
+					json.dump(QMainWindow.labelOptions, outfile)
 
 			QMainWindow.pause = False 
 			# print( stpau.getText() )
@@ -233,8 +240,10 @@ class Timer_Class(QMainWindow):
 			QMainWindow.pause = True  
 			stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPlay))
 
+
+
+
 		taskbox = QLineEdit( ) 
-		# self.verticalLayout.addWidget( taskbox   ) 
 		self.grid.addWidget( taskbox,1,0,1,2)
 
 
@@ -263,6 +272,7 @@ class Timer_Class(QMainWindow):
 		self.grid.addWidget( stp,3,1 )
 
 
+
   
 	def __init__(self):
 		"""View initializer of Timer_class."""
@@ -281,7 +291,7 @@ class Timer_Class(QMainWindow):
 		screenGeom = QDesktopWidget().availableGeometry() 
 		sh = screenGeom.height()
 		sw = screenGeom.width()
-		dx = 150
+		dx = 120
 		dy = 160  
 		y_offset = 100
 		self.setWindowTitle('Task Timer')
