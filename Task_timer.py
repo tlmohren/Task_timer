@@ -123,7 +123,7 @@ class Timer_Class(QMainWindow):
 				p = self.palette() 
 				p.setColor(self.backgroundRole(), self.backGroundColor  )  
 				self.setPalette(p)
-
+ 
 		elif (QMainWindow.pause == True): 
 			displayTxt = time.strftime('%M:%S', time.gmtime(QMainWindow.countDown))
 
@@ -131,7 +131,7 @@ class Timer_Class(QMainWindow):
 				p = self.palette() 
 				p.setColor(self.backgroundRole(), self.backGroundColor )  
 				self.setPalette(p)
-
+ 
 		else: 
 			p = self.palette() 
 			p.setColor(self.backgroundRole(), self.backGroundColor )  
@@ -149,7 +149,7 @@ class Timer_Class(QMainWindow):
 
 			QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
 			QMainWindow.countDown = QMainWindow.n_sec
-
+			print(QMainWindow.countdown) 
 		self.display.setText(displayTxt)
  
 
@@ -173,8 +173,7 @@ class Timer_Class(QMainWindow):
 				# turn button into pause button 
 				# stpau.setText("Pause")
 				stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPause))
-
-
+ 
 				# if this is start when timer is at max timer, then store starting properties
 				if QMainWindow.countDown == QMainWindow.n_sec:
 					QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
@@ -193,39 +192,11 @@ class Timer_Class(QMainWindow):
 						with open(QMainWindow.label_filename, 'w') as outfile:
 							json.dump(QMainWindow.labelOptions, outfile)	
 
-			elif not QMainWindow.stbutton_bool:
-				# stpau.setText('Start')
+			elif not QMainWindow.stbutton_bool: 
 				stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPlay))
 				QMainWindow.pause = True
 				QMainWindow.stbutton_bool = True
-
-
-
-		def press_start(self):	
-			if QMainWindow.countDown == QMainWindow.n_sec:
-				QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
-				QMainWindow.taskboxText= taskbox.text() 
-				QMainWindow.labelboxText = labelbox.currentText()
-
-				max_label_len = 16
-				if QMainWindow.labelboxText not in QMainWindow.labelOptions:
-					if len(QMainWindow.labelboxText)>max_label_len:
-						label_cropped = QMainWindow.labelboxText[:max_label_len]
-					else:
-						label_cropped = QMainWindow.labelboxText 
-					QMainWindow.labelOptions.append( label_cropped )
-					labelbox.addItem( label_cropped )	
-
-				# add new label option to dict 
-				with open(QMainWindow.label_filename, 'w') as outfile:
-					json.dump(QMainWindow.labelOptions, outfile)
-
-			QMainWindow.pause = False 
-			# print( stpau.getText() )
-		def press_pause(self):  
-			# btn.setText("Start")
-			QMainWindow.pause = True  
- 
+				print(QMainWindow.pause) 
 		def press_stop():   
 
 			output_list= [QMainWindow.date, 
@@ -238,6 +209,7 @@ class Timer_Class(QMainWindow):
 			QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss')  
 			QMainWindow.countDown = QMainWindow.n_sec#25*60 
 			QMainWindow.pause = True  
+			QMainWindow.stbutton_bool = True
 			stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPlay))
 
 
