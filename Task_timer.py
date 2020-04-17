@@ -148,8 +148,8 @@ class Timer_Class(QMainWindow):
 			append_list_as_row( QMainWindow.fileName , output_list)  
 
 			QMainWindow.t0 = QTime.currentTime().toString('hh:mm:ss') 
-			QMainWindow.countDown = QMainWindow.n_sec
-			print(QMainWindow.countdown) 
+			QMainWindow.countDown = QMainWindow.n_sec 
+
 		self.display.setText(displayTxt)
  
 
@@ -196,7 +196,7 @@ class Timer_Class(QMainWindow):
 				stpau.setIcon( stpau.style().standardIcon(QStyle.SP_MediaPlay))
 				QMainWindow.pause = True
 				QMainWindow.stbutton_bool = True
-				print(QMainWindow.pause) 
+				
 		def press_stop():   
 
 			output_list= [QMainWindow.date, 
