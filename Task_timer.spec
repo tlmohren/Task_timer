@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['Task_timer.py'],
-             pathex=['D:\\Code_projects\\Task_timer'],
+a = Analysis(['task_timer.py'],
+             pathex=['D:\\code_projects\\task_timer'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -23,11 +23,11 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='Task_timer',
+          name='task_timer',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False , icon='tomato.ico')
+          console=True , icon='figs\\tomato.ico')
