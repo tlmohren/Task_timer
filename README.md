@@ -1,6 +1,6 @@
-# Task Timer
+# task_timer
 A minimal timer that logs tasks per label to csv files (one per week). The Jupyter notebook can be used to analyze log files, an example is shown below.
-Currently data are logged not in this repository, see the Timer_Class, log_elsewhere = True. 
+Currently data are logged not in this repository, see the Timer_Class, log_elsewhere = True.
 
 Timer behavior:
 - The timer counts down from 25 minutes (25:00).
@@ -10,7 +10,7 @@ Timer behavior:
 - The task, label, start-time, date, and time spent are logged when either time equals 00:00 or stop is pressed
 
 
-Screenshot of the Task Timer| The jupyter notebook visualization of weekly data
+Screenshot of the task timer| The jupyter notebook visualization of weekly data
 :-------------------------:|:-------------------------:
 <img src="./figs/task_timer_example.png" alt="drawing" style="width:300px;"/>|      <img src="./figs/week_analysis.png" alt="drawing" style="width:500px;"/>
 

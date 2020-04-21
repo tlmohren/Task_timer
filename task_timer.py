@@ -99,7 +99,7 @@ class Timer_Class(QMainWindow):
 
 
     QMainWindow.log_filename = os.path.join( QMainWindow.log_dir, 
-                                'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv' )
+                                'task_log_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv' )
  
     # load currently stored task labels 
     QMainWindow.label_filename = os.path.join( QMainWindow.log_dir, 'label_options.json' )
