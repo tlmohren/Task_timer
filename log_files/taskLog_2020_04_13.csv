@@ -1,107 +1,107 @@
 date,start time,Task,Label,Duration (s)
 2020/04/13,07:38:10,Plan day,Other,527
-2020/04/13,07:47:17,Morning read,News,1500
-2020/04/13,08:12:18,Morning read,News,35
-2020/04/13,08:35:51,Covid analysis cleanup,Code,1500
-2020/04/13,09:00:52,Covid analysis cleanup,Code,566
-2020/04/13,09:10:24,Git reading,Code,1240
-2020/04/13,09:31:24,JHU organize functions,Code,1500
-2020/04/13,09:56:25,JHU organize functions,Code,1496
-2020/04/13,10:55:33,Code cleanup initialization,Timing feedforward,1500
-2020/04/13,11:20:33,Code cleanup initialization,Timing feedforward,1500
-2020/04/13,11:45:34,Code cleanup initialization,Timing feedforward,755
-2020/04/13,13:15:24,Code cleanup  ,Timing feedforward,804
-2020/04/13,13:29:10,Read news ,News,781
+2020/04/13,07:47:17,Morning read,label5,1500
+2020/04/13,08:12:18,Morning read,label5,35
+2020/04/13,08:35:51,Covid analysis cleanup,label5,1500
+2020/04/13,09:00:52,Covid analysis cleanup,label5,566
+2020/04/13,09:10:24,Git reading,label5,1240
+2020/04/13,09:31:24,JHU organize functions,label5,1500
+2020/04/13,09:56:25,JHU organize functions,label5,1496
+2020/04/13,10:55:33,label5 cleanup initialization,label1,1500
+2020/04/13,11:20:33,label5 cleanup initialization,label1,1500
+2020/04/13,11:45:34,label5 cleanup initialization,label1,755
+2020/04/13,13:15:24,label5 cleanup  ,label1,804
+2020/04/13,13:29:10,Read label5 ,label5,781
 2020/04/13,13:48:09,,Other,3
 2020/04/13,13:48:16,,Other,1
-2020/04/13,14:02:04,Read news,News,1500
-2020/04/13,14:27:06,Read news,News,523
-2020/04/13,14:49:12,Common data folder,Timing feedforward project,1500
-2020/04/13,15:14:13,Common data folder,Timing feedforward project,1500
-2020/04/13,15:39:14,Common data folder,Timing feedforward project,1107
-2020/04/13,16:14:51,Common data folder,Timing feedforward project,1500
-2020/04/13,16:39:52,Common data folder,Timing feedforward project,40
+2020/04/13,14:02:04,Read label5,label5,1500
+2020/04/13,14:27:06,Read label5,label5,523
+2020/04/13,14:49:12,Common data folder,label1,1500
+2020/04/13,15:14:13,Common data folder,label1,1500
+2020/04/13,15:39:14,Common data folder,label1,1107
+2020/04/13,16:14:51,Common data folder,label1,1500
+2020/04/13,16:39:52,Common data folder,label1,40
 2020/04/13,16:40:44,empytTask,emptyLabel,0
-2020/04/13,16:40:57,Coding organize,Timing feedforward project,185
+2020/04/13,16:40:57,Coding organize,label1,185
 2020/04/13,16:44:18,empytTask,emptyLabel,0
 2020/04/13,16:53:50,,Other,2
 2020/04/13,16:54:15,,Other,3
-2020/04/13,16:45:20,Common Folder organize,Timing feedforward,575
-2020/04/13,16:55:00,Common Folder organizeasdfa sdf,Timing feedforward,2
+2020/04/13,16:45:20,Common Folder organize,label1,575
+2020/04/13,16:55:00,Common Folder organizeasdfa sdf,label1,2
 2020/04/13,16:56:05,,ExtremelyLongTask to disturb,2
 2020/04/13,17:01:45,test2,ExtremelyLongTaskWill itbeadded,11
 2020/04/13,17:02:01,test2,ExtremelyLongTaskW,4
-2020/04/13,16:55:13,Common Folder organize,Timing feedforward,691
-2020/04/13,17:09:55,Finalize data folder oganization,Timing feedforw,76
-2020/04/13,17:12:52,Code folder cleanup,Timing feedforw,1126
+2020/04/13,16:55:13,Common Folder organize,label1,691
+2020/04/13,17:09:55,Finalize data folder oganization,label1,76
+2020/04/13,17:12:52,label5 folder cleanup,label1,1126
 2020/04/13,18:06:51,,Other,6
-2020/04/14,06:29:25,Read newspapers,News,1500
-2020/04/14,06:54:26,Read newspapers,News,1500
-2020/04/14,07:19:27,Read newspapers,News,952
-2020/04/14,07:35:42,JHU analysis coding,Coding study,1500
-2020/04/14,08:00:43,JHU analysis coding,Coding study,1500
-2020/04/14,08:25:44,JHU analysis coding,Coding study,1500
-2020/04/14,08:50:46,JHU analysis coding,Coding study,1322
-2020/04/14,09:58:14,simulation code clenaup,FFtiming pend,1500
-2020/04/14,10:23:14,simulation code clenaup,FFtiming pend,1500
-2020/04/14,10:48:15,simulation code clenaup,FFtiming pend,1500
-2020/04/14,11:13:17,simulation code clenaup,FFtiming pend,1500
-2020/04/14,11:38:17,simulation code clenaup,FFtiming pend,32
-2020/04/14,12:50:56,simulation code clenaup,FFtiming pend,565
-2020/04/15,07:59:05,read news,News,1500
-2020/04/15,08:24:06,read news,News,167
-2020/04/15,08:29:09,read news,News,12
+2020/04/14,06:29:25,Read label5papers,label5,1500
+2020/04/14,06:54:26,Read label5papers,label5,1500
+2020/04/14,07:19:27,Read label5papers,label5,952
+2020/04/14,07:35:42,JHU analysis coding,label3,1500
+2020/04/14,08:00:43,JHU analysis coding,label3,1500
+2020/04/14,08:25:44,JHU analysis coding,label3,1500
+2020/04/14,08:50:46,JHU analysis coding,label3,1322
+2020/04/14,09:58:14,simulation label5 clenaup,label7,1500
+2020/04/14,10:23:14,simulation label5 clenaup,label7,1500
+2020/04/14,10:48:15,simulation label5 clenaup,label7,1500
+2020/04/14,11:13:17,simulation label5 clenaup,label7,1500
+2020/04/14,11:38:17,simulation label5 clenaup,label7,32
+2020/04/14,12:50:56,simulation label5 clenaup,label7,565
+2020/04/15,07:59:05,read label5,label5,1500
+2020/04/15,08:24:06,read label5,label5,167
+2020/04/15,08:29:09,read label5,label5,12
 2020/04/15,09:24:19,Plan day,Other,416
-2020/04/15,10:40:14,Organize code folder,Flex pendulum,1500
-2020/04/15,11:05:15,Organize code folder,Flex pendulum,1500
-2020/04/15,11:30:16,Organize code folder,Flex pendulum,1500
-2020/04/15,11:55:17,Organize code folder,Flex pendulum,598
-2020/04/15,12:54:07,Watch news,News,1500
-2020/04/15,13:19:07,Watch news,News,1402
-2020/04/15,13:42:47,Learn package making pypend,Coding study,1500
-2020/04/15,14:07:47,Learn package making pypend,Coding study,1500
-2020/04/15,14:32:48,Learn package making pypend,Coding study,1142
-2020/04/15,15:05:57,watch Inslee ,News,1500
-2020/04/15,15:30:58,watch Inslee ,News,1360
-2020/04/15,15:55:30,update Task_timer analysis ,Coding study,1323
-2020/04/15,16:17:39,update Task_timer analysis ,Coding study,1500
-2020/04/15,16:42:39,update Task_timer analysis ,Coding study,1500
-2020/04/15,17:07:40,update Task_timer analysis ,Coding study,1500
-2020/04/15,17:32:41,update Task_timer analysis ,Coding study,1500
-2020/04/15,17:57:42,update Task_timer analysis ,Coding study,458
-2020/04/15,19:29:09,pendulum package,Coding study,1500
-2020/04/15,19:54:10,pendulum package,Coding study,5
-2020/04/15,19:54:19,pendulum package,Coding study,1
-2020/04/15,19:54:20,pendulum package,Coding study,0
+2020/04/15,10:40:14,Organize label5 folder,label2,1500
+2020/04/15,11:05:15,Organize label5 folder,label2,1500
+2020/04/15,11:30:16,Organize label5 folder,label2,1500
+2020/04/15,11:55:17,Organize label5 folder,label2,598
+2020/04/15,12:54:07,Watch label5,label5,1500
+2020/04/15,13:19:07,Watch label5,label5,1402
+2020/04/15,13:42:47,Learn package making pypend,label3,1500
+2020/04/15,14:07:47,Learn package making pypend,label3,1500
+2020/04/15,14:32:48,Learn package making pypend,label3,1142
+2020/04/15,15:05:57,watch Inslee ,label5,1500
+2020/04/15,15:30:58,watch Inslee ,label5,1360
+2020/04/15,15:55:30,update Task_timer analysis ,label3,1323
+2020/04/15,16:17:39,update Task_timer analysis ,label3,1500
+2020/04/15,16:42:39,update Task_timer analysis ,label3,1500
+2020/04/15,17:07:40,update Task_timer analysis ,label3,1500
+2020/04/15,17:32:41,update Task_timer analysis ,label3,1500
+2020/04/15,17:57:42,update Task_timer analysis ,label3,458
+2020/04/15,19:29:09,pendulum package,label3,1500
+2020/04/15,19:54:10,pendulum package,label3,5
+2020/04/15,19:54:19,pendulum package,label3,1
+2020/04/15,19:54:20,pendulum package,label3,0
 2020/04/16,07:44:00,Plan day,Other,610
-2020/04/16,07:54:21,ready NYtimes,News,1483
-2020/04/16,08:19:16,Job think,Job search,5
-2020/04/16,08:19:23,"Job think, talk to Tom",Job search,521
-2020/04/16,08:56:16,"Job think, talk to Tom",Job search,796
-2020/04/16,09:47:14,Hinson derivation,Flex pendulum,1500
-2020/04/16,10:12:15,Hinson derivation,Flex pendulum,1500
-2020/04/16,10:37:16,Hinson derivation,Flex pendulum,879
-2020/04/16,10:56:52,Watch cuomo press  conference ,News,1500
-2020/04/16,11:21:53,Watch cuomo press  conference ,News,915
+2020/04/16,07:54:21,ready NYtimes,label5,1483
+2020/04/16,08:19:16,Job think,label4,5
+2020/04/16,08:19:23,"Job think, talk to Tom",label4,521
+2020/04/16,08:56:16,"Job think, talk to Tom",label4,796
+2020/04/16,09:47:14,Hinson derivation,label2,1500
+2020/04/16,10:12:15,Hinson derivation,label2,1500
+2020/04/16,10:37:16,Hinson derivation,label2,879
+2020/04/16,10:56:52,Watch cuomo press  conference ,label5,1500
+2020/04/16,11:21:53,Watch cuomo press  conference ,label5,915
 2020/04/16,12:05:05,Skype,Other,1500
 2020/04/16,12:30:06,Skype,Other,1500
 2020/04/16,12:55:07,Skype,Other,1292
-2020/04/16,13:38:16,Derivation in latex ,Flex pendulum,1500
-2020/04/16,14:03:17,Derivation in latex ,Flex pendulum,1500
-2020/04/16,14:28:18,Derivation in latex ,Flex pendulum,1500
-2020/04/16,14:53:19,Derivation in latex ,Flex pendulum,1500
-2020/04/16,15:18:21,Derivation in latex ,Flex pendulum,1500
-2020/04/16,15:43:21,Derivation in latex ,Flex pendulum,1000
-2020/04/16,16:12:07,Derivation in latex ,Flex pendulum,1500
-2020/04/16,16:37:08,Derivation in latex ,Flex pendulum,1500
-2020/04/16,17:02:09,Derivation in latex ,Flex pendulum,1401
-2020/04/16,19:36:05,Derivation in latex ,Flex pendulum,2
-2020/04/16,19:36:10,Derivation in latex ,Flex pendulum,0
-2020/04/16,19:36:14,Derivation in latex ,Flex pendulum,2
-2020/04/16,19:36:16,Derivation in latex ,Flex pendulum,0
-2020/04/16,19:36:21,Derivation in latex ,Flex pendulum,2
-2020/04/16,19:36:28,Derivation in latex ,Flex pendulum,1
-2020/04/16,19:36:29,Derivation in latex ,Flex pendulum,0
+2020/04/16,13:38:16,Derivation in latex ,label2,1500
+2020/04/16,14:03:17,Derivation in latex ,label2,1500
+2020/04/16,14:28:18,Derivation in latex ,label2,1500
+2020/04/16,14:53:19,Derivation in latex ,label2,1500
+2020/04/16,15:18:21,Derivation in latex ,label2,1500
+2020/04/16,15:43:21,Derivation in latex ,label2,1000
+2020/04/16,16:12:07,Derivation in latex ,label2,1500
+2020/04/16,16:37:08,Derivation in latex ,label2,1500
+2020/04/16,17:02:09,Derivation in latex ,label2,1401
+2020/04/16,19:36:05,Derivation in latex ,label2,2
+2020/04/16,19:36:10,Derivation in latex ,label2,0
+2020/04/16,19:36:14,Derivation in latex ,label2,2
+2020/04/16,19:36:16,Derivation in latex ,label2,0
+2020/04/16,19:36:21,Derivation in latex ,label2,2
+2020/04/16,19:36:28,Derivation in latex ,label2,1
+2020/04/16,19:36:29,Derivation in latex ,label2,0
 2020/04/16,19:40:01,,Other,2
 2020/04/16,19:40:08,,Other,5
 2020/04/16,19:40:19,,Other,9
@@ -134,8 +134,8 @@ date,start time,Task,Label,Duration (s)
 2020/04/16,20:55:22,,Other,1
 2020/04/16,20:55:24,,Other,0
 2020/04/16,20:55:25,,Other,2
-2020/04/17,08:13:23,read papers,News,1500
-2020/04/17,08:39:09,Read papers,News,911
+2020/04/17,08:13:23,read papers,label5,1500
+2020/04/17,08:39:09,Read papers,label5,911
 2020/04/17,08:55:27,,Other,15
 2020/04/17,08:56:12,,Other,15
 2020/04/17,08:56:58,,Other,15
@@ -147,30 +147,30 @@ date,start time,Task,Label,Duration (s)
 2020/04/17,08:58:03,,Other,0
 2020/04/17,08:58:04,,Other,0
 2020/04/17,08:58:05,,Other,1
-2020/04/17,08:54:45,Task timer fix break,Coding study,311
-2020/04/17,09:01:55,Fix task timer,Coding study,217
-2020/04/17,09:39:33,Cuomo press conference,News,366
-2020/04/17,09:50:42,Alison zoom test,Lab business,1500
-2020/04/17,10:15:44,Alison zoom test,Lab business,74
-2020/04/17,10:17:15,Think of derivation implementation,Flex pendulum,1500
-2020/04/17,10:42:16,Think of derivation implementation,Flex pendulum,42
-2020/04/17,10:44:15,Think of derivation implementation,Flex pendulum,978
-2020/04/17,11:00:44,Meeting Michelle,Lab business,1500
-2020/04/17,11:25:45,Meeting Michelle,Lab business,334
-2020/04/17,11:45:46,mathematica derivations,Flex pendulum,1500
-2020/04/17,12:10:47,mathematica derivations,Flex pendulum,1500
-2020/04/17,12:35:48,mathematica derivations,Flex pendulum,1500
-2020/04/17,13:00:49,mathematica derivations,Flex pendulum,1500
-2020/04/17,13:25:50,mathematica derivations,Flex pendulum,492
-2020/04/17,13:46:00,mathematica derivations,Flex pendulum,1500
-2020/04/17,14:11:00,mathematica derivations,Flex pendulum,1471
-2020/04/17,14:39:15,Brunton meeting,Lab business,1500
-2020/04/17,15:04:16,Brunton meeting,Lab business,1414
-2020/04/17,15:27:59,Daniel lab meeting ,Lab business,1500
-2020/04/17,15:52:59,Daniel lab meeting ,Lab business,1500
-2020/04/17,16:18:01,Daniel lab meeting ,Lab business,1042
-2020/04/17,16:52:00,mathematica derivations,Flex pendulum,1500
-2020/04/17,17:24:01,flex pend writedown,Flex pendulum,1103
+2020/04/17,08:54:45,Task timer fix break,label3,311
+2020/04/17,09:01:55,Fix task timer,label3,217
+2020/04/17,09:39:33,Cuomo press conference,label5,366
+2020/04/17,09:50:42,Alison zoom test,label6,1500
+2020/04/17,10:15:44,Alison zoom test,label6,74
+2020/04/17,10:17:15,Think of derivation implementation,label2,1500
+2020/04/17,10:42:16,Think of derivation implementation,label2,42
+2020/04/17,10:44:15,Think of derivation implementation,label2,978
+2020/04/17,11:00:44,Meeting Michelle,label6,1500
+2020/04/17,11:25:45,Meeting Michelle,label6,334
+2020/04/17,11:45:46,mathematica derivations,label2,1500
+2020/04/17,12:10:47,mathematica derivations,label2,1500
+2020/04/17,12:35:48,mathematica derivations,label2,1500
+2020/04/17,13:00:49,mathematica derivations,label2,1500
+2020/04/17,13:25:50,mathematica derivations,label2,492
+2020/04/17,13:46:00,mathematica derivations,label2,1500
+2020/04/17,14:11:00,mathematica derivations,label2,1471
+2020/04/17,14:39:15,Brunton meeting,label6,1500
+2020/04/17,15:04:16,Brunton meeting,label6,1414
+2020/04/17,15:27:59,Daniel lab meeting ,label6,1500
+2020/04/17,15:52:59,Daniel lab meeting ,label6,1500
+2020/04/17,16:18:01,Daniel lab meeting ,label6,1042
+2020/04/17,16:52:00,mathematica derivations,label2,1500
+2020/04/17,17:24:01,flex pend writedown,label2,1103
 2020/04/19,17:22:11,1231,Other,155
 2020/04/19,17:47:28,,Other,2
 2020/04/19,17:47:31,,Other,2

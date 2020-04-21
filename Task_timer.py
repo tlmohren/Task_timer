@@ -51,7 +51,8 @@ def append_list_as_row(file_name, list_of_elem):
 class Timer_Class(QMainWindow):  
 
 	# boolean to have different timing parameters for testing 
-    test_mode = True
+    test_mode = False
+    log_elsewhere = True
 
     if test_mode == False:
         QMainWindow.n_sec = 25*60
@@ -90,11 +91,17 @@ class Timer_Class(QMainWindow):
     QMainWindow.log_dir = os.path.join(base_path,'log_files')
     today = datetime.date.today()
     date_Monday = today - datetime.timedelta(days=today.weekday()) 
-    QMainWindow.log_filename = os.path.join( QMainWindow.log_dir, 
+
+    if log_elsewhere:
+        QMainWindow.log_filename = os.path.join('D:\Mijn_documenten\Dropbox\D_notebook\log_files',
+            'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv')
+    else:
+        QMainWindow.log_filename = os.path.join( QMainWindow.log_dir, 
                                 'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv' )
  
     # load currently stored task labels 
     QMainWindow.label_filename = os.path.join( QMainWindow.log_dir, 'label_options.json' )
+    
     with open(  QMainWindow.label_filename , 'r') as f:  
          QMainWindow.labelOptions = json.load(f)   
 
