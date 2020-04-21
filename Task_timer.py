@@ -93,10 +93,12 @@ class Timer_Class(QMainWindow):
     date_Monday = today - datetime.timedelta(days=today.weekday()) 
 
     if log_elsewhere:
-        QMainWindow.log_filename = os.path.join('D:\Mijn_documenten\Dropbox\D_notebook\log_files',
-            'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv')
+    	QMainWindow.log_dir = 'D:\Mijn_documenten\Dropbox\D_notebook\log_files'
     else:
-        QMainWindow.log_filename = os.path.join( QMainWindow.log_dir, 
+    	QMainWindow.log_dir = os.path.join(base_path,'log_files')
+
+
+    QMainWindow.log_filename = os.path.join( QMainWindow.log_dir, 
                                 'taskLog_'+ datetime.datetime.strftime(date_Monday,  "%Y_%m_%d") +'.csv' )
  
     # load currently stored task labels 
