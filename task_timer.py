@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtWidgets import QStyle, QDesktopWidget 
 from PyQt5.QtGui import QColor
+from PyQt5.QtWidgets import QWidget
 import sys
 import os
 import json
@@ -153,17 +154,12 @@ class TaskTimer(QtWidgets.QMainWindow):
             csv_writer = csv.writer(write_obj) 
             if bool_add_header:
                 csv_writer.writerow( fileHeader) 
-            csv_writer.writerow(output_list)
-
-app = QtWidgets.QApplication([])
-win = TaskTimer()
-win.show()
-sys.exit(app.exec()) 
+            csv_writer.writerow(output_list) 
   
 def main():  
     app = QtWidgets.QApplication([])
+    app.setStyle('Fusion')  
     win = TaskTimer()
-    TaskTimer.setStyle('Fusion')  
     win.show()
     sys.exit(app.exec()) 
 
