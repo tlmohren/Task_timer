@@ -37,13 +37,22 @@ class TaskTimer(QtWidgets.QMainWindow):
         for label in  self.labelOptions: 
             self.comboBoxLabel.addItem(label)   
  
+        test_mode = False
+        if test_mode:
+            self.max_time =  QtCore.QTime(0, 0, 15)
+            self.red_time =  QtCore.QTime(0, 0, 10)
+            y_offset = 300
+        else:
+            self.max_time =  QtCore.QTime(0, 25, 0)
+            self.red_time =  QtCore.QTime(0, 2, 0)
+            y_offset = 100
+
          # set screen geometry
         screenGeom = QDesktopWidget().availableGeometry() 
         sh = screenGeom.height()
         sw = screenGeom.width()
-        dx = 115
-        dy = 120
-        y_offset = 100
+        dx = 125
+        dy = 130 
         self.setWindowTitle('Task Timer')
         self.setGeometry(sw-dx,sh-dy-y_offset,dx,dy) 
 
@@ -51,13 +60,6 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.setWindowFlag(Qt.FramelessWindowHint)  
  
         # boolean to have different timing parameters for testing 
-        test_mode = False
-        if test_mode:
-            self.max_time =  QtCore.QTime(0, 0, 15)
-            self.red_time =  QtCore.QTime(0, 0, 10)
-        else:
-            self.max_time =  QtCore.QTime(0, 25, 0)
-            self.red_time =  QtCore.QTime(0, 2, 0)
         self.time = self.max_time  
         self.lineEditTime.setText(self.time.toString("mm:ss")) 
  
@@ -98,6 +100,12 @@ class TaskTimer(QtWidgets.QMainWindow):
                     print("Adding label to files")
  
         self.time = self.time.addSecs(-1) 
+
+        self.lineEditTask.setEnabled(False)
+        self.comboBoxLabel.setEnabled(False) 
+
+
+
         if self.time == QtCore.QTime(0, 0, 0): 
             self.append_list_as_row()   
             self.time = self.max_time
@@ -109,9 +117,11 @@ class TaskTimer(QtWidgets.QMainWindow):
         if self.timer.isActive():
             self.timer.stop()
             self.pushButtonPlayPause.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay))
+
         else: 
             self.timer.start(1000)
             self.pushButtonPlayPause.setIcon( self.style().standardIcon(QStyle.SP_MediaPause))
+
              
     def onStop(self):
         self.timer.stop()
@@ -123,6 +133,10 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.time = self.max_time 
         self.lineEditTime.setText(self.time.toString("mm:ss")) 
         self.setColor()
+
+        self.lineEditTask.setEnabled(True)
+        self.comboBoxLabel.setEnabled(True) 
+
 
     def setColor(self):    
         p = self.palette() 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>115</width>
-    <height>120</height>
+    <width>125</width>
+    <height>130</height>
    </rect>
   </property>
   <property name="palette">
@@ -469,10 +469,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="lineEditTime">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
+      <x>5</x>
+      <y>5</y>
       <width>115</width>
       <height>45</height>
      </rect>
@@ -482,6 +485,11 @@
       <pointsize>32</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+alternate-background-color: rgb(0, 0, 0);
+color: rgb(0, 0, 0);</string>
+    </property>
     <property name="placeholderText">
      <string>25:00</string>
     </property>
@@ -489,8 +497,8 @@
    <widget class="QComboBox" name="comboBoxLabel">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>75</y>
+      <x>5</x>
+      <y>80</y>
       <width>115</width>
       <height>20</height>
      </rect>
@@ -514,8 +522,8 @@
    <widget class="QPushButton" name="pushButtonPlayPause">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>100</y>
+      <x>5</x>
+      <y>105</y>
       <width>55</width>
       <height>20</height>
      </rect>
@@ -966,7 +974,7 @@
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
@@ -982,8 +990,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>100</y>
+      <x>65</x>
+      <y>105</y>
       <width>55</width>
       <height>20</height>
      </rect>
@@ -998,8 +1006,8 @@
    <widget class="QLineEdit" name="lineEditTask">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>50</y>
+      <x>5</x>
+      <y>55</y>
       <width>115</width>
       <height>20</height>
      </rect>
