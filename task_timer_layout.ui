@@ -1004,6 +1004,9 @@ color: rgb(0, 0, 0);</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditTask">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>5</x>
@@ -1013,11 +1016,11 @@ color: rgb(0, 0, 0);</string>
      </rect>
     </property>
    </widget>
-   <zorder>comboBoxLabel</zorder>
    <zorder>pushButtonPlayPause</zorder>
    <zorder>pushButtonStop</zorder>
-   <zorder>lineEditTask</zorder>
    <zorder>lineEditTime</zorder>
+   <zorder>comboBoxLabel</zorder>
+   <zorder>lineEditTask</zorder>
   </widget>
   <action name="actionhelp_here">
    <property name="text">

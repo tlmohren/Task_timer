@@ -37,7 +37,7 @@ class TaskTimer(QtWidgets.QMainWindow):
         for label in  self.labelOptions: 
             self.comboBoxLabel.addItem(label)   
  
-        test_mode = False
+        test_mode = True
         if test_mode:
             self.max_time =  QtCore.QTime(0, 0, 15)
             self.red_time =  QtCore.QTime(0, 0, 10)
@@ -102,9 +102,7 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.time = self.time.addSecs(-1) 
 
         self.lineEditTask.setEnabled(False)
-        self.comboBoxLabel.setEnabled(False) 
-
-
+        self.comboBoxLabel.setEnabled(False)  
 
         if self.time == QtCore.QTime(0, 0, 0): 
             self.append_list_as_row()   
