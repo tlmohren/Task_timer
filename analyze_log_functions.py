@@ -133,7 +133,7 @@ def plot_time_spent_daily( ax_pl, df_week, label_dict, bool_legend=False):
     labels = df_pl['Label'].unique()
     
     # set bar with  
-    bar_w = 1/len(labels)  
+    bar_w = 1/(len(labels)+1)
  
     days_in_week = df_pl['date'].unique()
     
