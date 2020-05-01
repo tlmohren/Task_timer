@@ -37,7 +37,7 @@ class TaskTimer(QtWidgets.QMainWindow):
         for label in  self.labelOptions: 
             self.comboBoxLabel.addItem(label)   
  
-        test_mode = True
+        test_mode = False
         if test_mode:
             self.max_time =  QtCore.QTime(0, 0, 15)
             self.red_time =  QtCore.QTime(0, 0, 10)
