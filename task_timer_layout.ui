@@ -524,7 +524,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>5</x>
       <y>105</y>
-      <width>55</width>
+      <width>35</width>
       <height>20</height>
      </rect>
     </property>
@@ -990,9 +990,9 @@ color: rgb(0, 0, 0);</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>65</x>
+      <x>45</x>
       <y>105</y>
-      <width>55</width>
+      <width>35</width>
       <height>20</height>
      </rect>
     </property>
@@ -1016,11 +1016,31 @@ color: rgb(0, 0, 0);</string>
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButtonPlot">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>85</x>
+      <y>105</y>
+      <width>35</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>pushButtonPlayPause</zorder>
    <zorder>pushButtonStop</zorder>
    <zorder>lineEditTime</zorder>
    <zorder>comboBoxLabel</zorder>
    <zorder>lineEditTask</zorder>
+   <zorder>pushButtonPlot</zorder>
   </widget>
   <action name="actionhelp_here">
    <property name="text">
