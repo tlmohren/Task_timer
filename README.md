@@ -12,7 +12,7 @@ Timer behavior:
 
 Screenshot of the task timer| The jupyter notebook visualization of weekly data
 :-------------------------:|:-------------------------:
-<img src="./figs/task_timer_example.png" alt="drawing" style="width:300px;"/>|      <img src="./figs/week_analysis.png" alt="drawing" style="width:500px;"/>
+<img src="./figs/task_timer_example.png" alt="drawing" style="width:300px;"/>|      <mimg src="./figs/week_analysis.png" alt="drawing" style="width:500px;"/>
 
 ## Background
 The timer GUI is based on PyQt5. The executable version is built using pyinstaller, though it currently takes up over 30 Mb (and needs to be in the same folder as the Task_timer.py file?).

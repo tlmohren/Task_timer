@@ -17,13 +17,16 @@ def tick(x,pos):
     days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     return days[int(x)]  
     
-def hours_to_hhmm( arr ): 
+def hours_to_hhmm( arr, bool_h = False): 
     out_list = []
-    for val in arr:
-        if val< 10:
-            test = '0' + str(val) +':00'
-        else:
-            test = str(val) + ':00'
+    for val in arr: 
+        if bool_h:
+            test = str(val)+'h'
+        else: 
+            if val< 10:
+                test = '0'+str(val)+':00'
+            else:
+                test = str(val) + ':00'
         out_list.append(test)
     return( out_list ) 
  
@@ -62,7 +65,8 @@ def plot_week_tasks( ax_pl, df_week, label_dict, bool_legend=False ):
     ax_pl.invert_yaxis()
     hours = np.array([9,12,13,17,20])
     ax_pl.yaxis.set_ticks( hours*3600)
-    ax_pl.yaxis.set_ticklabels( hours_to_hhmm(hours ) )
+    ax_pl.yaxis.set_ticklabels( hours_to_hhmm(hours) )
+    # ax_pl.yaxis.set_ticklabels( hours )
     ax_pl.yaxis.grid('on')
  
     # remove spines 
@@ -80,9 +84,9 @@ def plot_week_tasks( ax_pl, df_week, label_dict, bool_legend=False ):
     
     bbox_props = dict(boxstyle="round,pad=0.1", fc="w", ec="w", lw=2, alpha = 0.5) 
 #     ax_pl.annotate( mon_day.date(), (mon_day,7*3600), 
-    ax_pl.annotate( mon_day.date(), (mon_day+ datetime.timedelta(5),7*3600), 
-                   va='top',ha='left' ,
-                   bbox={'boxstyle':"round,pad=0.1", 'fc':"w",'ec':'w', 'alpha':0.9})
+    ax_pl.annotate( 'week of \n' + str(mon_day.date()), (mon_day+ datetime.timedelta(6),6*3600), 
+                   va='top',ha='center' ,
+                   bbox={'boxstyle':"round,pad=0.1", 'fc':"w",'ec':'w', 'alpha':0.9}) 
     
     
 def plot_time_spent_weekly(ax_pl,df_pl, label_dict, bool_legend=False): 
@@ -97,12 +101,21 @@ def plot_time_spent_weekly(ax_pl,df_pl, label_dict, bool_legend=False):
         col_list.append( label_dict[key] ) 
 
     ax_pl.barh( df_pl.index, df_pl['Duration (s)'],color=col_list )
+ 
 
-    hours = np.array([0,2,4,6,8,10])
-    ax_pl.xaxis.set_ticks( hours*3600)
-    ax_pl.xaxis.set_ticklabels( hours_to_hhmm(hours ) )
-    ax_pl.set_xlabel('Total time spent (hh:mm)') 
+    x_max = df_pl['Duration (s)'].max() 
+  
+    n_ticks = 7
+    x_max_ceil = np.ceil(x_max/3600/(n_ticks-1)) * 3600 * (n_ticks-1)
+    # x_max_ceil = (np.floor_divide(x_max, 3600*4)+1)*3600*4
 
+    ticks =   np.int64( np.linspace(0,x_max_ceil,n_ticks) )
+
+    ax_pl.xaxis.set_ticks( ticks)
+    ax_pl.xaxis.set_ticklabels( hours_to_hhmm( np.int64(ticks/3600), bool_h=True ) )
+    ax_pl.set_xlabel('Time spent this week') 
+
+    ax_pl.set_xlim([0,x_max_ceil +500])
     # remove spines 
     ax_pl.spines['top'].set_visible(False)
     ax_pl.spines['right'].set_visible(False) 
@@ -166,9 +179,10 @@ def plot_time_spent_daily( ax_pl, df_week, label_dict, bool_legend=False):
         tick.set_rotation( 45 )
 
     # # set yaxis ticks  
-    hours = np.array([0,1,2,3,4,5,6,7,8 ])
+    # hours = np.array([0,1,2,3,4,5,6,7,8 ])
+    hours = np.arange(0,10,1)
     ax_pl.yaxis.set_ticks( hours*3600)
-    ax_pl.yaxis.set_ticklabels( hours_to_hhmm(hours ) )
+    ax_pl.yaxis.set_ticklabels( hours_to_hhmm(hours, bool_h=True))
     ax_pl.yaxis.grid('on')
     
     # # set xlim 
@@ -186,10 +200,43 @@ def plot_time_spent_daily( ax_pl, df_week, label_dict, bool_legend=False):
     # set background transparent for when graphs overlap slightly 
     ax_pl.patch.set_visible(False)
      
-    ax_pl.set_ylabel('Time spent per day (hh:mm)')
+    ax_pl.set_ylabel('Time spent')
  
     if bool_legend:
         handles, labels = ax_pl.get_legend_handles_labels()
         by_label = dict(zip(labels, handles))
         ax_pl.legend(by_label.values(), by_label.keys(), loc='center left', bbox_to_anchor=(1, 0.5) )
-  
+
+
+def sec_to_hhmm(sec):
+
+    hours = np.floor_divide(sec,3600) 
+    mins =  np.int64( (sec-hours*3600)/ 60)
+
+    if mins <10:
+        min_str = '0'+ str(mins)
+    else:
+        min_str = str(mins)
+
+    hhmm_text = str(hours) + ':' + min_str 
+
+    return hhmm_text
+
+def plot_week_text( ax_pl, df_week, select_labels=None, selected_text='' ): 
+    time_spent = sec_to_hhmm( df_week['Duration (s)'].sum())
+    ax_pl.annotate('Total time logged (h:m): ' + time_spent ,[0,.6]) 
+
+    if select_labels: 
+        if isinstance(select_labels, str):
+            print('is string') 
+            search_labels = [select_labels] 
+        elif isinstance(select_labels, list): 
+            search_labels = '|'.join(select_labels)
+ 
+        bool_labels = df_week['Label'].str.contains(search_labels)
+        df_week.loc[bool_labels,'Duration (s)'].sum()
+
+        time_spent = sec_to_hhmm( df_week.loc[bool_labels,'Duration (s)'].sum())
+        ax_pl.annotate( selected_text +': ' + time_spent ,[0,.5]) 
+
+    ax_pl.axis('off')

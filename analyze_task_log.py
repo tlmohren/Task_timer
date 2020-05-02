@@ -51,9 +51,9 @@ fig, ax = plt.subplots(2, 2, squeeze=False, figsize =(10,5))
 alf.plot_week_tasks( ax[0,0], df, label_dict ) 
 alf.plot_time_spent_weekly(ax[0,1], df, label_dict  )
 alf.plot_time_spent_daily( ax[1,0], df, label_dict  ) 
+alf.plot_week_text(ax[1,1], df, ['Flex pendulum','FEA wing','Lab business', 'FF timing pend'], 'Time worked')
   
 # adjust layout 
-plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=.4, hspace=None) 
-ax[1,1].axes.remove() # remove unused lower right subplot 
+plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=.4, hspace=None)  
 
 plt.show() 
