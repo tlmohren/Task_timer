@@ -9,15 +9,15 @@ import os
 import json
 import csv 
 
-# import numpy as np
-# import glob
-# import pandas as pd
-# import matplotlib.pyplot as plt
+import numpy as np
+import glob
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# # load project functions
-# package_path = 'D:\code_projects\\task_timer'
-# sys.path.append(package_path)
-# import analyze_log_functions as alf
+# load project functions
+package_path = 'D:\code_projects\\task_timer'
+sys.path.append(package_path)
+import analyze_log_functions as alf
 
 
 class TaskTimer(QtWidgets.QMainWindow):
@@ -84,10 +84,9 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.pushButtonPlayPause.clicked.connect(self.onPlayPause)
         self.pushButtonStop.clicked.connect(self.onStop)
 
-        if topmost_folder == 'task_timer':
-
-
-            self.pushButtonPlot.clicked.connect(self.onPlot)
+        # if topmost_folder == 'task_timer':
+ 
+        self.pushButtonPlot.clicked.connect(self.onPlot)
 
 
 
@@ -165,19 +164,10 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.comboBoxLabel.setEnabled(True) 
 
 
-    def onPlot(self):
-        import numpy as np
-        import glob
-        import pandas as pd
-        import matplotlib.pyplot as plt
+    def onPlot(self): 
 
-        # load project functions
-        package_path = 'D:\code_projects\\task_timer'
-        sys.path.append(package_path)
-        import analyze_log_functions as alf
-
-        print('plotting')
-        if self.bool_plot == False: 
+        # if self.bool_plot == False: 
+        if len(plt.get_fignums()) ==0: 
             # make colorscheme 
             cols = np.array([
                 # [166,206,227], 
@@ -188,9 +178,10 @@ class TaskTimer(QtWidgets.QMainWindow):
             [227,26,28], 
             # [253,191,111], 
             [255,127,0], 
-            # [202,178,214], 
+            [202,178,214], 
             [106,61,154], 
-            [255,255,153]]) /255  
+            # [255,255,153]
+            ]) /255  
 
             # load most recent log file   
             log_files = sorted(glob.glob( self.log_dir+ '\*.csv')) 
@@ -225,16 +216,21 @@ class TaskTimer(QtWidgets.QMainWindow):
                
 
             # show figure 
-            fig.canvas.draw()
-            fig.show()
+            # fig.canvas.draw()
+            # fig.show()
 
         #     # return plot properties to allow for closing later 
-            self.bool_plot = True 
-            self.fig = fig
-            return self
+            # self.bool_plot = True 
+            # self.fig = fig
+            plt.show()
+            # return self
         else: 
-            plt.close(self.fig)
-            self.bool_plot = False
+            # print( plt.get_fignums())
+            # print( type(plt.get_fignums() ) )
+            # print( len(plt.get_fignums()))
+            # print('closing plot')
+            plt.close()
+            # self.bool_plot = False
 
     def setColor(self):    
         p = self.palette() 

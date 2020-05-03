@@ -8,6 +8,10 @@ import matplotlib.dates
 from matplotlib.ticker import MultipleLocator, FuncFormatter, NullFormatter
 from matplotlib.dates import MonthLocator, WeekdayLocator, DateFormatter
 
+# def datetime_to_float(d):
+#     return d.timestamp()
+
+
 def get_sec(time_str):
     """Get Seconds from time."""
     h, m, s = time_str.split(':')
@@ -38,23 +42,30 @@ def plot_week_tasks( ax_pl, df_week, label_dict, bool_legend=False ):
 
 
         for j,row in df_week_temp.iterrows():
-            y = get_sec( row['start time'] )
+            y =  get_sec( row['start time'] ) 
             dy =  row['Duration (s)'] 
-            label = row['Label']  
-            ax_pl.bar( row['date'],dy, bottom = y, 
+            label = row['Label']     
+
+            x_v =  matplotlib.dates.date2num( row['date'])
+
+            ax_pl.bar(  x_v ,dy, bottom = y, 
                       color = label_dict[label] , label = label ) 
- 
+  
     # set xlim 
     first_day = pd.to_datetime( days_in_week[0] )
     mon_day = first_day - datetime.timedelta( first_day.isocalendar()[2] -0.5 )
     sun_day = mon_day + datetime.timedelta( 7)     
     
+
+
     ax_pl.set_xlim( matplotlib.dates.date2num(mon_day)-0.2, matplotlib.dates.date2num(sun_day)+0.2 )
+ 
 
     # set ylim 
     ax_pl.set_ylim([6*3600,21*3600]) 
 
-    # set xaxis ticks and ticklabels
+    # set xaxis ticks and ticklabels 
+
     ax_pl.xaxis.set_major_locator(MultipleLocator(1))
     daysFmt = DateFormatter("%a")
     ax_pl.xaxis.set_major_formatter(daysFmt) 
@@ -84,7 +95,11 @@ def plot_week_tasks( ax_pl, df_week, label_dict, bool_legend=False ):
     
     bbox_props = dict(boxstyle="round,pad=0.1", fc="w", ec="w", lw=2, alpha = 0.5) 
 #     ax_pl.annotate( mon_day.date(), (mon_day,7*3600), 
-    ax_pl.annotate( 'week of \n' + str(mon_day.date()), (mon_day+ datetime.timedelta(6),6*3600), 
+
+    # x_val = (mon_day+ datetime.timedelta(6)).timestamp()
+    # x_val = (mon_day).timestamp()
+    x_val = matplotlib.dates.date2num(mon_day)
+    ax_pl.annotate( 'week of \n' + str(mon_day.date()), (x_val ,6*3600), 
                    va='top',ha='center' ,
                    bbox={'boxstyle':"round,pad=0.1", 'fc':"w",'ec':'w', 'alpha':0.9}) 
     
