@@ -35,12 +35,21 @@ class TaskTimer(QtWidgets.QMainWindow):
         else:
             print('error, folder structure not recognized') 
 
-        log_elsewhere = True   
-        if log_elsewhere:
+        #------------------------------------------------------
+        #------------------------------------------------------
+        #------------------------------------------------------
+        self.log_elsewhere = True
+        #------------------------------------------------------
+        #------------------------------------------------------
+        #------------------------------------------------------
+
+        if self.log_elsewhere:
             self.log_dir = 'D:\Mijn_documenten\Dropbox\D_notebook\log_files'
         else:
             self.log_dir = os.path.join(base_path,'log_files')
 
+
+        print(self.log_dir) 
         self.fig_dir = os.path.join(base_path,'figs')
 
         # load currently stored task labels 
@@ -48,6 +57,13 @@ class TaskTimer(QtWidgets.QMainWindow):
         with open(  self.label_filename , 'r') as f:  
              self.labelOptions = json.load(f)    
   
+
+        # load currently stored task labels 
+        self.work_label_filename = os.path.join( self.log_dir, 'work_labels.json' )
+        with open(  self.work_label_filename , 'r') as f:  
+             self.work_labels = json.load(f)    
+        # self.work_labels= ['Flex pendulum']
+
         uic.loadUi( os.path.join(base_path, "task_timer_layout.ui"), self)#currency_converter  
 
         for label in  self.labelOptions: 
@@ -88,9 +104,7 @@ class TaskTimer(QtWidgets.QMainWindow):
  
         self.pushButtonPlot.clicked.connect(self.onPlot)
 
-
-
-        # switch to prevent double plotting 
+        # switch to prevent double plotting  (obsolete? )
         self.bool_plot = False 
 
         self.pushButtonStop.setIcon( self.style().standardIcon(QStyle.SP_MediaStop))
@@ -164,30 +178,28 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.comboBoxLabel.setEnabled(True) 
 
 
-    def onPlot(self): 
-
-        # if self.bool_plot == False: 
+    def onPlot(self):  
         if len(plt.get_fignums()) ==0: 
             # make colorscheme 
             cols = np.array([
-                # [166,206,227], 
             [31,120,180], 
             [178,223,138], 
-            # [51,160,44], 
-            # [251,154,153], 
             [227,26,28], 
-            # [253,191,111], 
             [255,127,0], 
             [202,178,214], 
             [106,61,154], 
-            # [255,255,153]
+            [255,255,153],
+            [51,160,44], 
+            [251,154,153], 
+            [253,191,111], 
+            [166,206,227]
             ]) /255  
 
             # load most recent log file   
             log_files = sorted(glob.glob( self.log_dir+ '\*.csv')) 
+  
             df= pd.read_csv( log_files[-1], index_col=None, header=0)   
-            
-            # print()
+             
             # remove any task shorter than 1 minute, it's probably originated from a test
             bool_short_duration = df['Duration (s)'] < 60
             df = df[~bool_short_duration]
@@ -195,42 +207,27 @@ class TaskTimer(QtWidgets.QMainWindow):
             # modify data to useful format 
             df['date'] = pd.to_datetime(df['date'] )  
             df['Duration (hh:mm:ss)'] = pd.to_timedelta(df['Duration (s)'],'s') 
+ 
 
-            # find unique labels for color mapping
-            labels = df['Label'].unique()     
-            label_dict = {}
-            for label,col in zip(labels,cols): 
-                label_dict[label] = col  
+            if not df.empty:
+                # find unique labels for color mapping
+                labels = df['Label'].unique()     
+                label_dict = {}
+                for label,col in zip(labels,cols): 
+                    label_dict[label] = col  
 
-            # plot figure 
-            fig, ax = plt.subplots(2, 2, squeeze=False, figsize =(10,5))
-             
-            # create 3 subplots
-            alf.plot_week_tasks( ax[0,0], df, label_dict ) 
-            alf.plot_time_spent_weekly(ax[0,1], df, label_dict  )
-            alf.plot_time_spent_daily( ax[1,0], df, label_dict  ) 
-            alf.plot_week_text(ax[1,1], df, ['Flex pendulum','FEA wing','Lab business', 'FF timing pend'], 'Time worked')
-              
-            # adjust layout 
-            plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=.4, hspace=None)  
-               
-
-            # show figure 
-            # fig.canvas.draw()
-            # fig.show()
-
-        #     # return plot properties to allow for closing later 
-            # self.bool_plot = True 
-            # self.fig = fig
-            plt.show()
-            # return self
-        else: 
-            # print( plt.get_fignums())
-            # print( type(plt.get_fignums() ) )
-            # print( len(plt.get_fignums()))
-            # print('closing plot')
-            plt.close()
-            # self.bool_plot = False
+                # plot figure  
+                fig, ax = plt.subplots(2, 2, squeeze=False, figsize =(10,5))
+     
+                alf.plot_week_tasks( ax[0,0], df, label_dict ) 
+                alf.plot_time_spent_weekly( ax[0,1], df, label_dict  )
+                alf.plot_time_spent_daily( ax[1,0], df, label_dict  ) 
+                alf.plot_week_text(ax[1,1], df, self.work_labels, 'Time worked')
+                    
+                plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=.4, hspace=None)   
+                plt.show( ) 
+        else:  
+            plt.close()   
 
     def setColor(self):    
         p = self.palette() 
