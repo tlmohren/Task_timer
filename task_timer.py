@@ -34,22 +34,16 @@ class TaskTimer(QtWidgets.QMainWindow):
             base_path = os.path.dirname( os.getcwd()  )
         else:
             print('error, folder structure not recognized') 
-
-        #------------------------------------------------------
-        #------------------------------------------------------
+ 
         #------------------------------------------------------
         self.log_elsewhere = True
-        #------------------------------------------------------
-        #------------------------------------------------------
-        #------------------------------------------------------
+        #------------------------------------------------------ 
 
         if self.log_elsewhere:
             self.log_dir = 'D:\Mijn_documenten\Dropbox\D_notebook\log_files'
         else:
             self.log_dir = os.path.join(base_path,'log_files')
-
-
-        print(self.log_dir) 
+ 
         self.fig_dir = os.path.join(base_path,'figs')
 
         # load currently stored task labels 
@@ -196,8 +190,8 @@ class TaskTimer(QtWidgets.QMainWindow):
             ]) /255  
 
             # load most recent log file   
-            log_files = sorted(glob.glob( self.log_dir+ '\*.csv')) 
-  
+            log_files = sorted(glob.glob( self.log_dir+ os.path.sep + '*.csv'))  
+
             df= pd.read_csv( log_files[-1], index_col=None, header=0)   
              
             # remove any task shorter than 1 minute, it's probably originated from a test
