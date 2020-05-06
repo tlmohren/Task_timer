@@ -23,9 +23,7 @@ import analyze_log_functions as alf
 class TaskTimer(QtWidgets.QMainWindow):
 
     def __init__(self):
-        super(TaskTimer, self).__init__()
-
-        self.test_mode = False # if True, reduces time to inspect countdown behavoir
+        super(TaskTimer, self).__init__() 
 
         topmost_folder = os.path.basename( os.getcwd() )
         if topmost_folder == 'task_timer':
@@ -33,8 +31,9 @@ class TaskTimer(QtWidgets.QMainWindow):
         elif topmost_folder == 'dist':
             base_path = os.path.dirname( os.getcwd()  )
         else:
+            base_path = r'D:\code_projects\task_timer'
             print('error, folder structure not recognized') 
- 
+            
         #------------------------------------------------------
         self.log_elsewhere = True
         #------------------------------------------------------ 
@@ -47,29 +46,22 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.fig_dir = os.path.join(base_path,'figs')
 
         # load currently stored task labels 
-        self.label_filename = os.path.join( self.log_dir, 'label_options.json' )
-        with open(  self.label_filename , 'r') as f:  
-             self.labelOptions = json.load(f)    
-  
-
-        # load currently stored task labels 
-        self.work_label_filename = os.path.join( self.log_dir, 'work_labels.json' )
-        with open(  self.work_label_filename , 'r') as f:  
-             self.work_labels = json.load(f)    
-        # self.work_labels= ['Flex pendulum']
+        self.config_filename = os.path.join( self.log_dir, 'task_timer_config.json' )
+        with open(  self.config_filename , 'r') as f:  
+             self.config = json.load(f)     
 
         uic.loadUi( os.path.join(base_path, "task_timer_layout.ui"), self)#currency_converter  
 
-        for label in  self.labelOptions: 
+        for label in  self.config["labels"]: 
             self.comboBoxLabel.addItem(label)   
  
-        if self.test_mode:
-            self.max_time =  QtCore.QTime(0, 0, 15)
+        if self.config["test_mode"]  :
+            self.max_time =  QtCore.QTime(0, 0, 15) 
             self.red_time =  QtCore.QTime(0, 0, 10)
             y_offset = 300
         else:
-            self.max_time =  QtCore.QTime(0, 25, 0)
-            self.red_time =  QtCore.QTime(0, 2, 0)
+            self.max_time =  QtCore.QTime(0, self.config["task_minutes"], 0)
+            self.red_time =  QtCore.QTime(0, self.config["red_minutes"], 0)
             y_offset = 100
 
          # set screen geometry
@@ -93,17 +85,10 @@ class TaskTimer(QtWidgets.QMainWindow):
  
         self.pushButtonPlayPause.clicked.connect(self.onPlayPause)
         self.pushButtonStop.clicked.connect(self.onStop)
-
-        # if topmost_folder == 'task_timer':
- 
         self.pushButtonPlot.clicked.connect(self.onPlot)
 
-        # switch to prevent double plotting  (obsolete? )
-        self.bool_plot = False 
-
         self.pushButtonStop.setIcon( self.style().standardIcon(QStyle.SP_MediaStop))
-        self.pushButtonPlayPause.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay))
-        # self.pushButtonPlot.setIcon(QtGui.QIcon(  os.path.join( self.fig_dir, 'graph_icon.png' ) ))
+        self.pushButtonPlayPause.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay)) 
         self.pushButtonPlot.setIcon(QtGui.QIcon(  os.path.join( self.fig_dir, 'graph_icon.ico' ) ))
         self.pushButtonPlot.setIconSize(QtCore.QSize(24,24))
  
@@ -122,19 +107,19 @@ class TaskTimer(QtWidgets.QMainWindow):
                                         'task_log_'+ monday_date +'.csv' ) 
             # read and append label 
             self.labelBoxText = self.comboBoxLabel.currentText() 
-            if self.labelBoxText not in self.labelOptions:
+            if self.labelBoxText not in self.config["labels"]:
                 if len(self.labelBoxText)>18:
                     label_cropped = self.labelBoxText[:18]
                 else:
                     label_cropped = self.labelBoxText
 
-                self.labelOptions.append( label_cropped )
-
-                # add new label option to dict 
-                with open(self.label_filename, 'w') as outfile:
-                    json.dump(self.labelOptions, outfile)      
-                    print("Adding label to files")
+                self.config["labels"].append( label_cropped )
  
+                # add new label option to dict  
+                with open(self.config_filename, 'w') as outfile:
+                    json.dump(self.config, outfile, indent=2)      
+                    print("Adding label to config file")
+   
         self.time = self.time.addSecs(-1) 
 
         self.lineEditTask.setEnabled(False)
@@ -216,7 +201,7 @@ class TaskTimer(QtWidgets.QMainWindow):
                 alf.plot_week_tasks( ax[0,0], df, label_dict ) 
                 alf.plot_time_spent_weekly( ax[0,1], df, label_dict  )
                 alf.plot_time_spent_daily( ax[1,0], df, label_dict  ) 
-                alf.plot_week_text(ax[1,1], df, self.work_labels, 'Time worked')
+                alf.plot_week_text(ax[1,1], df, self.config["select_labels"], 'Time worked')
                     
                 plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=.4, hspace=None)   
                 plt.show( ) 

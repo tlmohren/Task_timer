@@ -1,0 +1,6 @@
+{"select_labels": ["label1","label2","label3"],
+"labels": ["Other", "label1","label2","label3","label4"],
+"test_mode": False ,
+  "task_minutes": 25,
+  "red_minutes": 2
+}
