@@ -1,0 +1,72 @@
+date,start time,Task,Label,Duration (s)
+2020/04/13,10:55:33,label5 cleanup initialization,label1,1500
+2020/04/13,11:20:33,label5 cleanup initialization,label1,1500
+2020/04/13,11:45:34,label5 cleanup initialization,label1,755
+2020/04/13,13:15:24,label5 cleanup  ,label1,804
+2020/04/13,13:29:10,Read label5 ,label5,781
+2020/04/13,13:48:09,,Other,3
+2020/04/13,13:48:16,,Other,1
+2020/04/13,14:02:04,Read label5,label5,1500
+2020/04/13,14:27:06,Read label5,label5,523
+2020/04/13,14:49:12,Common data folder,label1,1500
+2020/04/13,15:14:13,Common data folder,label1,1500
+2020/04/13,15:39:14,Common data folder,label1,1107
+2020/04/13,16:14:51,Common data folder,label1,1500
+2020/04/13,16:39:52,Common data folder,label1,40
+2020/04/13,16:40:44,empytTask,emptyLabel,0
+2020/04/13,16:40:57,Coding organize,label1,185
+2020/04/13,16:44:18,empytTask,emptyLabel,0
+2020/04/13,16:53:50,,Other,2
+2020/04/13,16:54:15,,Other,3
+2020/04/13,16:45:20,Common Folder organize,label1,575
+2020/04/13,16:55:00,Common Folder organizeasdfa sdf,label1,2
+2020/04/13,16:56:05,,ExtremelyLongTask to disturb,2  
+2020/04/14,08:50:46,JHU analysis coding,label3,1322
+2020/04/14,09:58:14,simulation label5 clenaup,label7,1500
+2020/04/14,10:23:14,simulation label5 clenaup,label7,1500
+2020/04/14,10:48:15,simulation label5 clenaup,label7,1500
+2020/04/14,11:13:17,simulation label5 clenaup,label7,1500
+2020/04/14,11:38:17,simulation label5 clenaup,label7,32
+2020/04/14,12:50:56,simulation label5 clenaup,label7,565
+2020/04/15,07:59:05,read label5,label5,1500
+2020/04/15,08:24:06,read label5,label5,167
+2020/04/15,08:29:09,read label5,label5,12
+2020/04/15,09:24:19,Plan day,Other,416
+2020/04/15,10:40:14,Organize label5 folder,label2,1500
+2020/04/15,11:05:15,Organize label5 folder,label2,1500
+2020/04/15,11:30:16,Organize label5 folder,label2,1500
+2020/04/15,11:55:17,Organize label5 folder,label2,598
+2020/04/15,12:54:07,Watch label5,label5,1500
+2020/04/15,13:19:07,Watch label5,label5,1402
+2020/04/15,13:42:47,Learn package making pypend,label3,1500
+2020/04/15,14:07:47,Learn package making pypend,label3,1500
+2020/04/15,14:32:48,Learn package making pypend,label3,1142 
+2020/04/16,09:47:14,Hinson derivation,label2,1500
+2020/04/16,10:12:15,Hinson derivation,label2,1500
+2020/04/16,10:37:16,Hinson derivation,label2,879
+2020/04/16,10:56:52,Watch cuomo press  conference ,label5,1500
+2020/04/16,11:21:53,Watch cuomo press  conference ,label5,915
+2020/04/16,12:05:05,Skype,Other,1500
+2020/04/16,12:30:06,Skype,Other,1500
+2020/04/16,12:55:07,Skype,Other,1292
+2020/04/16,13:38:16,Derivation in latex ,label2,1500
+2020/04/16,14:03:17,Derivation in latex ,label2,1500
+2020/04/16,14:28:18,Derivation in latex ,label2,1500
+2020/04/16,14:53:19,Derivation in latex ,label2,1500
+2020/04/16,15:18:21,Derivation in latex ,label2,1500
+2020/04/16,15:43:21,Derivation in latex ,label2,1000 
+2020/04/17,10:17:15,Think of derivation implementation,label2,1500
+2020/04/17,10:42:16,Think of derivation implementation,label2,42
+2020/04/17,10:44:15,Think of derivation implementation,label2,978
+2020/04/17,11:00:44,Meeting Michelle,label6,1500
+2020/04/17,11:25:45,Meeting Michelle,label6,334
+2020/04/17,11:45:46,mathematica derivations,label2,1500
+2020/04/17,12:10:47,mathematica derivations,label2,1500
+2020/04/17,12:35:48,mathematica derivations,label2,1500
+2020/04/17,13:00:49,mathematica derivations,label2,1500
+2020/04/17,13:25:50,mathematica derivations,label2,492
+2020/04/17,13:46:00,mathematica derivations,label2,1500
+2020/04/17,14:11:00,mathematica derivations,label2,1471
+2020/04/17,14:39:15,Brunton meeting,label6,1500
+2020/04/17,15:04:16,Brunton meeting,label6,1414
+2020/04/17,15:27:59,Daniel lab meeting ,label6,1500 

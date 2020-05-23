@@ -56,16 +56,10 @@ def plot_week_tasks( ax_pl, df_week, label_dict, bool_legend=False ):
     mon_day = first_day - datetime.timedelta( first_day.isocalendar()[2] -0.5 )
     sun_day = mon_day + datetime.timedelta( 7)     
     
-
-
     ax_pl.set_xlim( matplotlib.dates.date2num(mon_day)-0.2, matplotlib.dates.date2num(sun_day)+0.2 )
- 
 
-    # set ylim 
-    ax_pl.set_ylim([6*3600,21*3600]) 
 
     # set xaxis ticks and ticklabels 
-
     ax_pl.xaxis.set_major_locator(MultipleLocator(1))
     daysFmt = DateFormatter("%a")
     ax_pl.xaxis.set_major_formatter(daysFmt) 
@@ -74,10 +68,20 @@ def plot_week_tasks( ax_pl, df_week, label_dict, bool_legend=False ):
         
     # set yaxis ticks 
     ax_pl.invert_yaxis()
-    hours = np.array([9,12,13,17,20])
+    hours = np.array([7,9,12,14,17,20,22])
     ax_pl.yaxis.set_ticks( hours*3600)
     ax_pl.yaxis.set_ticklabels( hours_to_hhmm(hours) )
     # ax_pl.yaxis.set_ticklabels( hours )
+
+
+    start_time = df_week['start time'].apply(get_sec)
+    minmax_sec = np.array( [start_time.min(), (start_time+df_week['Duration (s)']).max()  ])
+    min_h = np.floor(start_time.min()/3600 +0.5)-0.5
+    max_h = np.ceil((start_time+df_week['Duration (s)']).max()/3600)+0.5
+ 
+    minmax_h = np.array([ np.max([17.5,max_h]), np.min([8.5,min_h]) ]) 
+    ax_pl.set_ylim( minmax_h*3600)
+
     ax_pl.yaxis.grid('on')
  
     # remove spines 
@@ -131,6 +135,7 @@ def plot_time_spent_weekly(ax_pl,df_pl, label_dict, bool_legend=False):
     ax_pl.set_xlabel('Time spent this week') 
 
     ax_pl.set_xlim([0,x_max_ceil +500])
+
     # remove spines 
     ax_pl.spines['top'].set_visible(False)
     ax_pl.spines['right'].set_visible(False) 
@@ -138,6 +143,8 @@ def plot_time_spent_weekly(ax_pl,df_pl, label_dict, bool_legend=False):
     # put grid on major x-ticks
     ax_pl.xaxis.grid('on')
     
+    # print( ax_pl.get_ylim() )
+    # ax_pl.set_ylim([-0.275, 0.5*3+0.025])
     # set background transparent for when graphs overlap slightly 
     ax_pl.patch.set_visible(False)
     
@@ -206,9 +213,10 @@ def plot_time_spent_daily( ax_pl, df_week, label_dict, bool_legend=False):
     sun_day = mon_day + datetime.timedelta( 7)    
 #     ax_pl.set_xlim([mon_day,sun_day])  
     ax_pl.set_xlim( matplotlib.dates.date2num(mon_day)-0.2, matplotlib.dates.date2num(sun_day)+0.2 )
- 
-    ax_pl.set_ylim([0,df_pl['Duration (s)'].max()*1.2 ])
-      
+  
+    max_y = np.max([3600,df_pl['Duration (s)'].max()]) *1.2 
+    ax_pl.set_ylim(0, max_y ) 
+
     ax_pl.spines['top'].set_visible(False)
     ax_pl.spines['right'].set_visible(False) 
 
@@ -221,6 +229,7 @@ def plot_time_spent_daily( ax_pl, df_week, label_dict, bool_legend=False):
         handles, labels = ax_pl.get_legend_handles_labels()
         by_label = dict(zip(labels, handles))
         ax_pl.legend(by_label.values(), by_label.keys(), loc='center left', bbox_to_anchor=(1, 0.5) )
+
 
 
 def sec_to_hhmm(sec):
