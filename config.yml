@@ -1,0 +1,18 @@
+log_path : whwlk
+remote_path : D:\Mijn_documenten\Dropbox\notebook
+log_remote : True
+base_path : D:\code_projects\task_timer
+dropbox_path : D:\Mijn_documenten\Dropbox
+gui_dir : D:\code_projects\task_timer\task_timer
+
+dropbox_full : D:\Mijn_documenten\Dropbox\daily_notes_dropbox.txt
+todo_gui :  D:\code_projects\task_timer\task_timer\todo_window_gui.ui 
+log_dir_full: D:\Mijn_documenten\Dropbox\notebook\log_files
+ 
+timer_gui: D:\code_projects\task_timer\task_timer\task_timer_layout.ui
+ # os.path.join(base_path, 
+ #        "task_timer\\task_timer_layout.ui"
+
+config_full: D:\Mijn_documenten\Dropbox\D_notebook\miscellaneous\task_timer_config.json
+
+icon_full: D:\\code_projects\\task_timer\\figs\graph_icon.ico 

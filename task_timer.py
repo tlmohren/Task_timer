@@ -69,13 +69,14 @@ class TaskTimer(QtWidgets.QMainWindow):
 
         if self.log_elsewhere:
             self.log_dir = 'D:\Mijn_documenten\Dropbox\D_notebook\log_files'
+            self.config_dir = 'D:\Mijn_documenten\Dropbox\D_notebook\miscellaneous'
         else:
             self.log_dir = os.path.join(base_path,'log_files')
  
         self.fig_dir = os.path.join(base_path,'figs')
 
         # load currently stored task labels 
-        self.config_filename = os.path.join( self.log_dir, 'task_timer_config.json' )
+        self.config_filename = os.path.join( self.config_dir, 'task_timer_config.json' )
         with open(  self.config_filename , 'r') as f:  
              self.config = json.load(f)     
 
