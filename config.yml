@@ -20,9 +20,10 @@ Thomas-PC:
 thomas-HP-EliteBook-8530w: 
   # base_path : D:\code_projects\task_timer
   log_dir: '/home/thomas/Dropbox/D_Notebook/log_files/'
-  fig_dir: ' ' 
+  logo_dir: '/home/thomas/Projects/task_timer/figs/graph_icon.ico'
+  fig_dir: '/home/thomas/Projects/task_timer/figs/'
   remote_config: '/home/thomas/Dropbox/D_Notebook/miscellaneous/task_timer_config.json'
-  second_gui: ':\\code_projects\\task_timer\\todo_window_gui.ui"'
+  second_gui: ':\\code_projects\\task_timer\\todo_window_gui.ui'
   dropbox_todo: '/home/thomas/Dropbox/daily_notes_dropbox.txt'
 
   # self.fileNameDropbox = 'D:\\Mijn_documenten\Dropbox\\daily_notes_dropbox.txt'
