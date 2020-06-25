@@ -13,6 +13,7 @@ import numpy as np
 import glob
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib 
 
 # load project functions
 # package_path = 'D:\code_projects\\task_timer'
@@ -24,6 +25,8 @@ import yaml
 from multiprocessing import Process
 import pdb
 
+import task_timer.load_config as lc 
+
 
 class Second(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -32,23 +35,14 @@ class Second(QtWidgets.QMainWindow):
         file_config = "config.yml"
         with open(file_config) as file_config:
             config_all = yaml.load(file_config, Loader=yaml.Loader)
+ 
+        self.setWindowFlags(self.windowFlags() | Qt.Dialog) 
 
-        self.file_config = config_all[platform.node()]
 
-        topmost_folder = os.path.basename(os.getcwd())
-        # print('-------------')
-        base_path = os.getcwd()
-        # print('-------------')
+        self.config_dict = lc.load_config( "config.yml")
+  
+        uic.loadUi(self.config_dict['gui_name'], self)
 
-        # second_file = self.file_config['todo_gui']
-
-        self.setWindowFlags(self.windowFlags() | Qt.Dialog)
-
-        gui_name = os.path.join(base_path, 'todo_window_gui.ui')
-        # uic.loadUi(r"D:\\code_projects\\task_timer\\todo_window_gui.ui",self)
-        uic.loadUi(gui_name, self)
-        # self.fileNameDropbox = 'D:\\Mijn_documenten\Dropbox\\daily_notes_dropbox.txt'
-        self.fileNameDropbox = self.file_config['dropbox_todo']
 
         screenGeom = QDesktopWidget().availableGeometry()
         sh = screenGeom.height()
@@ -73,8 +67,10 @@ class Second(QtWidgets.QMainWindow):
         # pdb.set_trace()
         self.readDropbox()
 
+
     def readDropbox(self):
-        with open(self.fileNameDropbox, 'r', encoding="utf8") as reader:
+        filename = self.config_dict['dropbox'].joinpath('daily_notes_dropbox.txt')
+        with open( filename, 'r', encoding="utf8") as reader:
             try:
                 self.data = reader.read()
             except:
@@ -93,40 +89,18 @@ class TaskTimer(QtWidgets.QMainWindow):
 
         self.file_config = config_all[platform.node()]
 
-        topmost_folder = os.path.basename(os.getcwd())
-        base_path = os.getcwd()
-        # if topmost_folder == 'task_timer':
-        #     base_path = os.getcwd()
-        # elif topmost_folder == 'dist':
-        #     base_path = os.path.dirname( os.getcwd()  )
-        # else:
-        #     base_path = r'D:\code_projects\task_timer'
-        #     print('error, folder structure not recognized')
+        self.config_dict = lc.load_config( "config.yml")
 
-        # #------------------------------------------------------
-        # self.log_elsewhere = True
-        # #------------------------------------------------------
 
-        # if self.log_elsewhere:
-        #     self.log_dir = 'D:\Mijn_documenten\Dropbox\D_notebook\log_files'
-        #     self.config_dir = 'D:\Mijn_documenten\Dropbox\D_notebook\miscellaneous'
-        # else:
-        #     self.log_dir = os.path.join(base_path,'log_files')
-        self.log_dir = self.file_config['log_dir']
-
-        # os.path.join(base_path,'figs')
-        self.fig_dir = self.file_config['fig_dir']
-
-        # load currently stored task labels
-        # self.config_filename = os.path.join( self.config_dir, 'task_timer_config.json' )
-        self.config_filename = self.file_config['remote_config']
-
-        with open(self.config_filename, 'r') as f:
+        with open( self.config_dict['task_config'], 'r') as f:
             self.config = json.load(f)
+ 
 
-        # TO FIX
-        uic.loadUi(os.path.join(base_path, "task_timer_layout.ui"),
-                   self)  # currency_converter
+        uic.loadUi( self.config_dict['base_path'].joinpath("task_timer_layout.ui"),
+                   self)  
+
+ 
+
 
         for label in self.config["labels"]:
             self.comboBoxLabel.addItem(label)
@@ -172,8 +146,13 @@ class TaskTimer(QtWidgets.QMainWindow):
             self.style().standardIcon(QStyle.SP_MediaPlay))
         # print(os.path.join(self.fig_dir, 'graph_icon.ico'))
 
+        # self.pushButtonPlot.setIcon(QtGui.QIcon(
+        #     os.path.join(self.fig_dir, 'graph_icon.ico')))
+ 
         self.pushButtonPlot.setIcon(QtGui.QIcon(
-            os.path.join(self.fig_dir, 'graph_icon.ico')))
+            str(self.config_dict['fig_dir'].joinpath('graph_icon.ico'))))
+ 
+
 
         self.pushButtonPlot.setIconSize(QtCore.QSize(24, 24))
 
@@ -215,8 +194,9 @@ class TaskTimer(QtWidgets.QMainWindow):
             monday_date = self.date.addDays(-day_delta +
                                             1).toString("yyyy_MM_dd")
 
-            self.log_filename = os.path.join(self.log_dir,
-                                             'task_log_' + monday_date + '.csv')
+            filename = 'task_log_' + monday_date + '.csv'
+            self.log_filename = self.config_dict['log_dir'].joinpath(filename)
+
             # read and append label
             self.labelBoxText = self.comboBoxLabel.currentText()
             if self.labelBoxText not in self.config["labels"]:
@@ -273,19 +253,11 @@ class TaskTimer(QtWidgets.QMainWindow):
 
     def onPlot(self):
 
-        # try:
-        #     print(self.fig)
-        # except:
-        #     print('no plot exists')
+        all_figs = matplotlib._pylab_helpers.Gcf.get_all_fig_managers()
 
-        # # if 1:
-        # if not hasattr(self, 'fig'):
-        if 1:
-                # print('has no figure')
-            print('doesnt have figure')
-            # self.fig = plt.figure()
+        if len(all_figs)==0:
 
-            print('no figures')
+            print('doesnt have figure') 
             # make colorscheme
             cols = np.array([
                 [31, 120, 180],
@@ -302,7 +274,9 @@ class TaskTimer(QtWidgets.QMainWindow):
             ]) / 255
 
             # load most recent log file
-            log_files = sorted(glob.glob(self.log_dir + os.path.sep + '*.csv'))
+
+            file_dir = str(self.config_dict['log_dir']) + os.path.sep + '*.csv'
+            log_files = sorted(glob.glob(file_dir))
 
             df = pd.read_csv(log_files[-1], index_col=None, header=0)
 
@@ -335,19 +309,11 @@ class TaskTimer(QtWidgets.QMainWindow):
                 plt.subplots_adjust(left=None, bottom=None,
                                     right=None, top=None, wspace=.4, hspace=None)
 
-                print(self.fig)
                 plt.show()
-                # plt.draw()
-                # plt.show(block=False)
 
-        # else:
-        #     print(self.fig)
-        #     # fig.close()
-        #     # plt.close(self.fig)
-        #     plt.close('all')
-        #     del self.fig
-        #     print('closing fig')
-            # plt.close()
+        else:
+            plt.close('all')
+            print('try to close the figure')
 
     def setColor(self):
         p = self.palette()
