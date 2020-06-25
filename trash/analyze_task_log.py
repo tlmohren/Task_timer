@@ -25,6 +25,8 @@ cols = np.array([
 [106,61,154], 
 [255,255,153]]) /255  
 
+
+
 # load most recent log file 
 log_path = r'D:\\Mijn_documenten\\Dropbox\\D_notebook\\log_files\\'
 log_files = sorted(glob.glob( log_path+ '*.csv')) 

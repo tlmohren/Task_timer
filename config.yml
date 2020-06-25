@@ -29,21 +29,11 @@
   # self.fileNameDropbox = 'D:\\Mijn_documenten\Dropbox\\daily_notes_dropbox.txt'
 
 thomas-HP-ZBook-14: 
-  dropbox_dir: '/home/thomas/Dropbox'
-  # note_dir: '/home/thomas/Dropbox/Notebook'
-  # # base_path : D:\code_projects\task_timer
-  # log_dir: '/home/thomas/Dropbox/Notebook/log_files/'
-  # logo_dir: '/home/thomas/Projects/task_timer/figs/graph_icon.ico'
-  # fig_dir: '/home/thomas/Projects/task_timer/figs/'
-  # remote_config: '/home/thomas/Dropbox/Notebook/miscellaneous/task_timer_config.json'
-  # second_gui: ':\\code_projects\\task_timer\\todo_window_gui.ui'
-  # dropbox_todo: '/home/thomas/Dropbox/daily_notes_dropbox.txt'
-
+  dropbox_dir: '/home/thomas/Dropbox' 
+dropbox_file: ['daily_notes_dropbox.txt']
 logo: ['figs','graph_icon.ico']
 fig: ['figs']
-gui: 'todo_window_gui.ui'
-# todo: /home/thomas/Dropbox'
-
-
+gui: ['gui','todo_window_gui.ui']
+guimain: ['gui','task_timer_layout.ui'] 
 log_add: ['Notebook', 'log_files']
 task_config: ['Notebook', 'miscellaneous','task_timer_config.json']
