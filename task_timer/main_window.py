@@ -3,30 +3,29 @@ from PyQt5.QtWidgets import QStyle, QDesktopWidget
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import Qt
 
-import sys
 import os
 import json
 import csv
 
-# import numpy as np
-# import glob
-# import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 import platform
 import yaml
-
+import pathlib
 
 from . import analyze_log_functions as alf
 from . import load_config as lc
 from . import todo_window as tw
+from . import kanban_window as kw
 
 
 class TaskTimer(QtWidgets.QMainWindow):
     def __init__(self):
         super(TaskTimer, self).__init__()
 
-        file_config = "config.yml"
+        base_path = pathlib.Path(__file__).parent.parent
+        file_config = base_path.joinpath("config.yml")
+
         with open(file_config) as file_config:
             config_all = yaml.load(file_config, Loader=yaml.Loader)
 
@@ -75,20 +74,19 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.pushButtonPlayPause.clicked.connect(self.onPlayPause)
         self.pushButtonStop.clicked.connect(self.onStop)
         self.pushButtonPlot.clicked.connect(self.onPlot)
+        self.pushButtonPlot.clicked.connect(self.onKanban)
 
-        self.pushButtonStop.setIcon(
-            self.style().standardIcon(QStyle.SP_MediaStop))
-        self.pushButtonPlayPause.setIcon(
-            self.style().standardIcon(QStyle.SP_MediaPlay))
-
+        self.pushButtonStop.setIcon(self.style().standardIcon(QStyle.SP_MediaStop))
+        self.pushButtonPlayPause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.pushButtonPlot.setIcon(
-            QtGui.QIcon(
-                str(self.config_dict["fig_dir"].joinpath("graph_icon.ico")))
+            QtGui.QIcon(str(self.config_dict["fig_dir"].joinpath("graph_icon.ico")))
         )
 
         self.pushButtonPlot.setIconSize(QtCore.QSize(24, 24))
 
         self.dialog = tw.Second(self)
+
+        self.kanban = kw.Second(self)
 
         self.lineEditTimerEvent2()
 
@@ -106,8 +104,6 @@ class TaskTimer(QtWidgets.QMainWindow):
         else:
             self.dialog.hide()
 
-        self.show()
-
     def lineEditTimerEvent(self):
 
         if self.time == self.max_time:
@@ -116,8 +112,7 @@ class TaskTimer(QtWidgets.QMainWindow):
             self.date = QtCore.QDate.currentDate()
 
             day_delta = self.date.dayOfWeek()
-            monday_date = self.date.addDays(-day_delta +
-                                            1).toString("yyyy_MM_dd")
+            monday_date = self.date.addDays(-day_delta + 1).toString("yyyy_MM_dd")
 
             filename = "task_log_" + monday_date + ".csv"
             self.log_filename = self.config_dict["log_dir"].joinpath(filename)
@@ -133,7 +128,8 @@ class TaskTimer(QtWidgets.QMainWindow):
                 self.config["labels"].append(label_cropped)
 
                 # add new label option to dict
-                with open(self.config_filename, "w") as outfile:
+                with open(self.config_dict.get("task_config"), "w") as outfile:
+                    # with open(self.config_filename, "w") as outfile:
                     json.dump(self.config, outfile, indent=2)
                     print("Adding label to config file")
 
@@ -165,8 +161,7 @@ class TaskTimer(QtWidgets.QMainWindow):
     def onStop(self):
         print("stopped")
         self.timer.stop()
-        self.pushButtonPlayPause.setIcon(
-            self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.pushButtonPlayPause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
 
         if self.time < self.max_time:
             self.append_list_as_row()
@@ -220,11 +215,17 @@ class TaskTimer(QtWidgets.QMainWindow):
             plt.close("all")
             print("try to close the figure")
 
+    def onKanban(self):
+        if self.kanban.isVisible():
+            self.kanban.hide()
+        else:
+            self.kanban.show()
+        print(self.kanban.isVisible())
+
     def setColor(self):
         p = self.palette()
         if self.time < self.red_time:
-            total_sec = float(self.red_time.second()
-                              + 60 * self.red_time.minute())
+            total_sec = float(self.red_time.second() + 60 * self.red_time.minute())
             red_sec = float(self.time.second() + 60 * self.time.minute())
             ratio = 1 - red_sec / total_sec
             r = int(255)

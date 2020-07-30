@@ -22,28 +22,9 @@ class Second(QtWidgets.QMainWindow):
         screenGeom = QDesktopWidget().availableGeometry()
         sh = screenGeom.height()
         sw = screenGeom.width()
-        dx = 125
-        dy = 100
-        y_offset = 235
-        self.setWindowTitle("Dropbox todo")
+        dx = 325
+        dy = 300
+        y_offset = 635
         self.setGeometry(sw - dx + 100, sh - dy - y_offset, dx, dy)
 
         self.setWindowFlag(Qt.FramelessWindowHint)
-
-        self.textEditDropbox.setReadOnly(True)
-        tempFont = self.textEditDropbox.font()
-        tempFont.setPointSize(8)
-
-        self.textEditDropbox.setFont(tempFont)
-
-        self.readDropbox()
-
-    def readDropbox(self):
-        filename = self.config_dict["dropbox_file"]
-
-        with open(filename, "r", encoding="utf8") as reader:
-            try:
-                self.data = reader.read()
-            except:
-                self.data = "invalid dropbox entry"
-        self.textEditDropbox.setText(self.data)

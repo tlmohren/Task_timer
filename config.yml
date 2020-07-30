@@ -1,39 +1,9 @@
-# Thomas-PC: 
-#   log_path : whwlk
-#   remote_path : D:\Mijn_documenten\Dropbox\notebook
-#   log_remote : True
-#   base_path : D:\code_projects\task_timer
-#   dropbox_path : D:\Mijn_documenten\Dropbox
-#   gui_dir : D:\code_projects\task_timer\task_timer
-
-#   dropbox_full : D:\Mijn_documenten\Dropbox\daily_notes_dropbox.txt
-#   todo_gui :  D:\code_projects\task_timer\task_timer\todo_window_gui.ui 
-#   log_dir_full: D:\Mijn_documenten\Dropbox\notebook\log_files
-   
-#   timer_gui: D:\code_projects\task_timer\task_timer\task_timer_layout.ui
-#    # os.path.join(base_path, 
-#    #        "task_timer\\task_timer_layout.ui"
-
-#   config_full: D:\Mijn_documenten\Dropbox\D_notebook\miscellaneous\task_timer_config.json
-#   icon_full: D:\\code_projects\\task_timer\\figs\graph_icon.ico 
-
-# thomas-HP-EliteBook-8530w: 
-#   # base_path : D:\code_projects\task_timer
-#   log_dir: '/home/thomas/Dropbox/D_Notebook/log_files/'
-#   logo_dir: '/home/thomas/Projects/task_timer/figs/graph_icon.ico'
-#   fig_dir: '/home/thomas/Projects/task_timer/figs/'
-#   remote_config: '/home/thomas/Dropbox/D_Notebook/miscellaneous/task_timer_config.json'
-#   second_gui: ':\\code_projects\\task_timer\\todo_window_gui.ui'
-#   dropbox_todo: '/home/thomas/Dropbox/daily_notes_dropbox.txt'
-
-  # self.fileNameDropbox = 'D:\\Mijn_documenten\Dropbox\\daily_notes_dropbox.txt'
-
-thomas-HP-ZBook-14: 
-  dropbox_dir: '/home/thomas/Dropbox' 
-dropbox_file: ['daily_notes_dropbox.txt']
-logo: ['figs','graph_icon.ico']
-fig: ['figs']
-gui: ['gui','todo_window_gui.ui']
-guimain: ['gui','task_timer_layout.ui'] 
-log_add: ['Notebook', 'log_files']
-task_config: ['Notebook', 'miscellaneous','task_timer_config.json']
+thomas-HP-ZBook-14:
+  dropbox_dir: "/home/thomas/Dropbox"
+dropbox_file: ["daily_notes_dropbox.txt"]
+logo: ["figs", "graph_icon.ico"]
+fig: ["figs"]
+gui: ["gui", "todo_window_gui.ui"]
+guimain: ["gui", "task_timer_layout.ui"]
+log_add: ["Notebook", "log_files"]
+task_config: ["Notebook", "miscellaneous", "task_timer_config.json"]
