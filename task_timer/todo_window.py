@@ -1,21 +1,27 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtCore import Qt
+from PyQt5 import QtWidgets, QtCore, QtGui
+import sys
+import json
 
-from . import load_config as lc
+from . import load_config
+
 import pathlib
 
 
-class Second(QtWidgets.QMainWindow):
-    def __init__(self, parent=None):
-        super(Second, self).__init__(parent)
+class DropboxWindow(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
 
         self.setWindowFlags(self.windowFlags() | Qt.Dialog)
 
         base_path = pathlib.Path(__file__).parent.parent
         file_config = base_path.joinpath("config.yml")
 
-        self.config_dict = lc.load_config(file_config)
+        self.config_dict = load_config.load_config(file_config)
+        with open(self.config_dict["task_config"], "r") as f:
+            self.config = json.load(f)
 
         uic.loadUi(self.config_dict["gui_name"], self)
 
@@ -24,7 +30,11 @@ class Second(QtWidgets.QMainWindow):
         sw = screenGeom.width()
         dx = 125
         dy = 100
-        y_offset = 235
+        if self.config["test_mode"]:
+            y_offset = 635
+        else:
+            y_offset = 235
+
         self.setWindowTitle("Dropbox todo")
         self.setGeometry(sw - dx + 100, sh - dy - y_offset, dx, dy)
 

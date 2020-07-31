@@ -524,8 +524,8 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>5</x>
       <y>105</y>
-      <width>35</width>
-      <height>20</height>
+      <width>25</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="palette">
@@ -990,10 +990,10 @@ color: rgb(0, 0, 0);</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>45</x>
+      <x>35</x>
       <y>105</y>
-      <width>35</width>
-      <height>20</height>
+      <width>25</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="cursor">
@@ -1022,10 +1022,29 @@ color: rgb(0, 0, 0);</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>85</x>
+      <x>65</x>
       <y>105</y>
-      <width>35</width>
-      <height>20</height>
+      <width>25</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonKanban">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>95</x>
+      <y>105</y>
+      <width>25</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="cursor">
@@ -1041,6 +1060,7 @@ color: rgb(0, 0, 0);</string>
    <zorder>comboBoxLabel</zorder>
    <zorder>lineEditTask</zorder>
    <zorder>pushButtonPlot</zorder>
+   <zorder>pushButtonKanban</zorder>
   </widget>
   <action name="actionhelp_here">
    <property name="text">

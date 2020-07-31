@@ -3,7 +3,7 @@ thomas-HP-ZBook-14:
 dropbox_file: ["daily_notes_dropbox.txt"]
 logo: ["figs", "graph_icon.ico"]
 fig: ["figs"]
-gui: ["gui", "todo_window_gui.ui"]
+gui: ["gui", "todo_window_gui_widget.ui"]
 guimain: ["gui", "task_timer_layout.ui"]
 log_add: ["Notebook", "log_files"]
 task_config: ["Notebook", "miscellaneous", "task_timer_config.json"]

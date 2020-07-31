@@ -13,15 +13,16 @@ import platform
 import yaml
 import pathlib
 
-from . import analyze_log_functions as alf
-from . import load_config as lc
-from . import todo_window as tw
-from . import kanban_window as kw
+
+from task_timer import kanban_window
+from task_timer import todo_window
+from task_timer import load_config
+from task_timer import analyze_log_functions
 
 
 class TaskTimer(QtWidgets.QMainWindow):
     def __init__(self):
-        super(TaskTimer, self).__init__()
+        super().__init__()
 
         base_path = pathlib.Path(__file__).parent.parent
         file_config = base_path.joinpath("config.yml")
@@ -31,7 +32,7 @@ class TaskTimer(QtWidgets.QMainWindow):
 
         self.file_config = config_all[platform.node()]
 
-        self.config_dict = lc.load_config("config.yml")
+        self.config_dict = load_config.load_config("config.yml")
 
         with open(self.config_dict["task_config"], "r") as f:
             self.config = json.load(f)
@@ -60,8 +61,7 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.setWindowTitle("Task Timer")
         self.setGeometry(sw - dx + 100, sh - dy - y_offset, dx, dy)
 
-        # print(sw-dx, dx)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.setWindowFlag(Qt.FramelessWindowHint)
 
         # boolean to have different timing parameters for testing
@@ -74,19 +74,21 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.pushButtonPlayPause.clicked.connect(self.onPlayPause)
         self.pushButtonStop.clicked.connect(self.onStop)
         self.pushButtonPlot.clicked.connect(self.onPlot)
-        self.pushButtonPlot.clicked.connect(self.onKanban)
+        self.pushButtonKanban.clicked.connect(self.onKanban)
 
         self.pushButtonStop.setIcon(self.style().standardIcon(QStyle.SP_MediaStop))
         self.pushButtonPlayPause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.pushButtonPlot.setIcon(
             QtGui.QIcon(str(self.config_dict["fig_dir"].joinpath("graph_icon.ico")))
         )
+        self.pushButtonPlot.setIconSize(QtCore.QSize(22, 24))
+        self.pushButtonKanban.setIcon(
+            self.style().standardIcon(QStyle.SP_FileDialogListView)
+        )
 
-        self.pushButtonPlot.setIconSize(QtCore.QSize(24, 24))
+        self.dialog = todo_window.DropboxWindow()
 
-        self.dialog = tw.Second(self)
-
-        self.kanban = kw.Second(self)
+        self.kanban = kanban_window.KanbanWindow()
 
         self.lineEditTimerEvent2()
 
@@ -179,11 +181,12 @@ class TaskTimer(QtWidgets.QMainWindow):
 
         if len(all_figs) == 0:
 
-            print("doesnt have figure")
             cols = self.config_dict["col"]
 
-            file = alf.pick_mostrecent_log(self.config_dict["log_dir"])
-            df = alf.weekly_data_processing(file)
+            file = analyze_log_functions.pick_mostrecent_log(
+                self.config_dict["log_dir"]
+            )
+            df = analyze_log_functions.weekly_data_processing(file)
 
             if not df.empty:
                 # find unique labels for color mapping
@@ -194,14 +197,14 @@ class TaskTimer(QtWidgets.QMainWindow):
 
                 fig, ax = plt.subplots(2, 2, squeeze=False, figsize=(10, 5))
 
-                alf.plot_week_tasks(ax[0, 0], df, label_dict)
-                alf.plot_time_spent_weekly(ax[0, 1], df, label_dict)
-                alf.plot_time_spent_daily(ax[1, 0], df, label_dict)
-                alf.plot_week_text(
+                analyze_log_functions.plot_week_tasks(ax[0, 0], df, label_dict)
+                analyze_log_functions.plot_time_spent_weekly(ax[0, 1], df, label_dict)
+                analyze_log_functions.plot_time_spent_daily(ax[1, 0], df, label_dict)
+                analyze_log_functions.plot_week_text(
                     ax[1, 1], df, self.config["select_labels"], "Time worked"
                 )
 
-                plt.subplots_adjust(
+                fig.subplots_adjust(
                     left=None,
                     bottom=None,
                     right=None,
@@ -209,18 +212,17 @@ class TaskTimer(QtWidgets.QMainWindow):
                     wspace=0.4,
                     hspace=None,
                 )
-                plt.show()
-
+                fig.show()
         else:
             plt.close("all")
-            print("try to close the figure")
 
     def onKanban(self):
         if self.kanban.isVisible():
             self.kanban.hide()
         else:
             self.kanban.show()
-        print(self.kanban.isVisible())
+            print("kanban should update here")
+            self.kanban.update_kanban()
 
     def setColor(self):
         p = self.palette()
