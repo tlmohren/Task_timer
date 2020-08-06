@@ -6,6 +6,7 @@ from PyQt5.QtCore import Qt
 import os
 import json
 import csv
+import screeninfo
 
 import matplotlib.pyplot as plt
 import matplotlib
@@ -14,10 +15,10 @@ import yaml
 import pathlib
 
 
-from task_timer import kanban_window
-from task_timer import todo_window
-from task_timer import load_config
-from task_timer import analyze_log_functions
+from tasktimer import kanban_window
+from tasktimer import todo_window
+from tasktimer import load_config
+from tasktimer import analyze_log_functions
 
 
 class TaskTimer(QtWidgets.QMainWindow):
@@ -45,22 +46,35 @@ class TaskTimer(QtWidgets.QMainWindow):
         if self.config["test_mode"]:
             self.max_time = QtCore.QTime(0, 0, 15)
             self.red_time = QtCore.QTime(0, 0, 10)
-            y_offset = 500
+            y_offset = 200
         else:
             self.max_time = QtCore.QTime(0, self.config["task_minutes"], 0)
             self.red_time = QtCore.QTime(0, self.config["red_minutes"], 0)
-            y_offset = 100
+            y_offset = 500
 
         screenGeom = QDesktopWidget().availableGeometry()
         sh = screenGeom.height()
         sw = screenGeom.width()
 
+        print(f"Screen width: {sw}, screen height {sh}")
+
         dx = 125
         dy = 130
         self.top = sh - y_offset
         self.setWindowTitle("Task Timer")
-        self.setGeometry(sw - dx + 100, sh - dy - y_offset, dx, dy)
 
+        # correct for sidebar if I have only one monitor. Don't really understand why this works though
+        n_monitors = len(screeninfo.get_monitors())
+        print(n_monitors)
+        if n_monitors == 1:
+            x_base = sw - dx + 100
+        else:
+            x_base = sw - dx
+
+        self.goal_geometry = [x_base, sh - dy - y_offset, dx, dy]
+
+        self.setGeometry(*self.goal_geometry)
+        print(self.goal_geometry)
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.setWindowFlag(Qt.FramelessWindowHint)
 
@@ -159,6 +173,7 @@ class TaskTimer(QtWidgets.QMainWindow):
             self.pushButtonPlayPause.setIcon(
                 self.style().standardIcon(QStyle.SP_MediaPause)
             )
+        self.setGeometry(*self.goal_geometry)
 
     def onStop(self):
         print("stopped")
@@ -174,6 +189,7 @@ class TaskTimer(QtWidgets.QMainWindow):
 
         self.lineEditTask.setEnabled(True)
         self.comboBoxLabel.setEnabled(True)
+        self.setGeometry(*self.goal_geometry)
 
     def onPlot(self):
 
@@ -215,14 +231,17 @@ class TaskTimer(QtWidgets.QMainWindow):
                 fig.show()
         else:
             plt.close("all")
+        self.setGeometry(*self.goal_geometry)
 
     def onKanban(self):
         if self.kanban.isVisible():
             self.kanban.hide()
+            self.kanban.save_state()
         else:
             self.kanban.show()
             print("kanban should update here")
             self.kanban.update_kanban()
+        self.setGeometry(*self.goal_geometry)
 
     def setColor(self):
         p = self.palette()

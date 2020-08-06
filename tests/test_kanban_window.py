@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets, QtGui
 folder = pathlib.Path(__file__).absolute().parent.parent
 sys.path.append(str(folder))
 
-from task_timer import kanban_window
+from tasktimer import kanban_window
 
 
 def main():

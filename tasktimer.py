@@ -1,7 +1,7 @@
-#!/home/thomas/Projects/task_timer/env/bin/python
+#!/home/thomas/Projects/tasktimer/env/bin/python
 from PyQt5 import QtWidgets, QtCore, QtGui
 import sys
-import task_timer.main_window as mw
+from tasktimer import main_window
 
 
 def main():
@@ -12,7 +12,7 @@ def main():
     app_icon.addFile("figs/tomato.ico", QtCore.QSize(256, 256))
     app.setWindowIcon(app_icon)
 
-    win = mw.TaskTimer()
+    win = main_window.TaskTimer()
     win.show()
 
     sys.exit(app.exec())

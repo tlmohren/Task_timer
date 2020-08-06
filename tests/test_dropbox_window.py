@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets, QtGui
 folder = pathlib.Path(__file__).absolute().parent.parent
 sys.path.append(str(folder))
 
-from task_timer import todo_window
+from tasktimer import todo_window
 
 
 def main():

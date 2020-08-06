@@ -10,7 +10,7 @@ import pathlib
 import oyaml as yaml  # This preserves dictionary order in dumping
 
 from PyQt5 import QtCore
-from PyQt5.QtCore import QMimeData, QSize, Qt, pyqtSlot
+from PyQt5.QtCore import QMimeData, QSize, Qt, pyqtSlot, pyqtSignal, Signal
 from PyQt5.QtGui import QBrush, QColor, QDrag, QFont, QIcon, QPixmap
 from PyQt5.QtWidgets import (
     QAbstractItemView,
@@ -43,9 +43,9 @@ class KanbanWindow(QtWidgets.QWidget):
         screenGeom = QDesktopWidget().availableGeometry()
         sh = screenGeom.height()
         sw = screenGeom.width()
-        dx = 600
-        dy = 300
-        y_offset = 635
+        dx = 800
+        dy = 150
+        y_offset = 700
         self.setGeometry(sw - dx + 100, sh - dy - y_offset, dx, dy)
 
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -64,17 +64,9 @@ class KanbanWindow(QtWidgets.QWidget):
             grid.addWidget(QLabel(column), 0, i)
             grid.addWidget(self.column_dict[column], 1, i)
 
-        button = QPushButton("Save state", self)
-        button.setToolTip("This is an example button")
-        button.clicked.connect(self.save_state)
-        grid.addWidget(button, 0, n_columns)
-
         self.setLayout(grid)
 
-        # self.update_kanban()
-
     def update_kanban(self):
-        # load todo items
         self.todo_filename = self.config_dict["dropbox"].joinpath(
             "Notebook", "miscellaneous", "todo.yml"
         )
@@ -89,13 +81,25 @@ class KanbanWindow(QtWidgets.QWidget):
             item_list = kanban_columndicts[key]
 
             if item_list:
-                for item_name in item_list:
-                    item = QListWidgetItem()
-                    item.setText(item_name)
-                    item.setFont(QFont("DejaVu Sans", 10))
-                    item.setSizeHint(QSize(60, 15))
-                    # item.setBackground(QBrush(QColor("#FEF4E0")))
-                    self.column_dict[key].insertItem(1, item)
+                for i, item_name in enumerate(item_list):
+                    if item_name:
+                        item = QListWidgetItem()
+                        # item.setBackground(QBrush(QColor("#FEF4E0")))
+                        item.setText(item_name)
+                        item.setFont(QFont("DejaVu Sans", 10))
+                        item.setSizeHint(QSize(60, 17))
+                        # item.setSizeHint(QSize(60, 35))
+                        item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
+                        item.setToolTip(item_name)
+
+                        self.column_dict[key].insertItem(i, item)
+
+            item = QListWidgetItem()
+            item.setText("")
+            item.setFont(QFont("DejaVu Sans", 10))
+            item.setSizeHint(QSize(60, 15))
+            item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
+            self.column_dict[key].insertItem(len(item_list), item)
 
     @pyqtSlot()
     def save_state(self):
@@ -116,17 +120,19 @@ class KanbanWindow(QtWidgets.QWidget):
             yaml.safe_dump(
                 output_dict, file_dump, default_flow_style=False, line_break="\r"
             )
-        print("Done saving kanban state")
+        print("Saved kanban state")
+
+    def closeEvent(self, event):
+        print("closing kanban")
+        self.save_state()
 
 
 class ColumnWidget(QListWidget):
-
-    dropped = QtCore.pyqtSignal(list)
-
     def __init__(self, parent):
         super().__init__(parent)
         self.setAcceptDrops(True)
         self.setDragEnabled(True)
+        self.AllEditTriggers = True
 
     def dropEvent(self, event):
         super().dropEvent(event)
