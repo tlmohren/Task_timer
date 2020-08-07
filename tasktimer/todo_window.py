@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtWidgets, QtCore, QtGui
 import sys
 import json
+import screeninfo
 
 from . import load_config
 
@@ -25,18 +26,26 @@ class DropboxWindow(QtWidgets.QWidget):
 
         uic.loadUi(self.config_dict["gui_name"], self)
 
+
         screenGeom = QDesktopWidget().availableGeometry()
         sh = screenGeom.height()
         sw = screenGeom.width()
         dx = 125
         dy = 100
         if self.config["test_mode"]:
-            y_offset = 635
-        else:
             y_offset = 235
+        else:
+            y_offset = 635
 
-        self.setWindowTitle("Dropbox todo")
-        self.setGeometry(sw - dx + 100, sh - dy - y_offset, dx, dy)
+        n_monitors = len(screeninfo.get_monitors())
+        if n_monitors == 1:
+            x_base = sw - dx + 100
+        else:
+            x_base = sw - dx
+
+        self.dropbox_geometry = [x_base, sh - dy - y_offset, dx, dy]
+
+        self.set_dropbox_geometry()
 
         self.setWindowFlag(Qt.FramelessWindowHint)
 
@@ -47,6 +56,9 @@ class DropboxWindow(QtWidgets.QWidget):
         self.textEditDropbox.setFont(tempFont)
 
         self.readDropbox()
+    def set_dropbox_geometry(self):
+        self.setGeometry(*self.dropbox_geometry)
+
 
     def readDropbox(self):
         filename = self.config_dict["dropbox_file"]

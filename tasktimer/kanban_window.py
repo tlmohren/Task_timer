@@ -94,12 +94,16 @@ class KanbanWindow(QtWidgets.QWidget):
 
                         self.column_dict[key].insertItem(i, item)
 
-            item = QListWidgetItem()
-            item.setText("")
-            item.setFont(QFont("DejaVu Sans", 10))
-            item.setSizeHint(QSize(60, 15))
-            item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
-            self.column_dict[key].insertItem(len(item_list), item)
+        
+        # add template item to backlog
+        item = QListWidgetItem()
+        item.setText("")
+        item.setFont(QFont("DejaVu Sans", 10))
+        item.setSizeHint(QSize(60, 15))
+        item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
+
+        n_backlog_items = len(kanban_columndicts['backlog'])
+        self.column_dict['backlog'].insertItem( n_backlog_items, item)
 
     @pyqtSlot()
     def save_state(self):

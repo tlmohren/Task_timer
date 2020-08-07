@@ -56,8 +56,6 @@ class TaskTimer(QtWidgets.QMainWindow):
         sh = screenGeom.height()
         sw = screenGeom.width()
 
-        print(f"Screen width: {sw}, screen height {sh}")
-
         dx = 125
         dy = 130
         self.top = sh - y_offset
@@ -65,7 +63,7 @@ class TaskTimer(QtWidgets.QMainWindow):
 
         # correct for sidebar if I have only one monitor. Don't really understand why this works though
         n_monitors = len(screeninfo.get_monitors())
-        print(n_monitors)
+
         if n_monitors == 1:
             x_base = sw - dx + 100
         else:
@@ -74,7 +72,6 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.goal_geometry = [x_base, sh - dy - y_offset, dx, dy]
 
         self.setGeometry(*self.goal_geometry)
-        print(self.goal_geometry)
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.setWindowFlag(Qt.FramelessWindowHint)
 
@@ -174,9 +171,9 @@ class TaskTimer(QtWidgets.QMainWindow):
                 self.style().standardIcon(QStyle.SP_MediaPause)
             )
         self.setGeometry(*self.goal_geometry)
+        self.dialog.set_dropbox_geometry()
 
     def onStop(self):
-        print("stopped")
         self.timer.stop()
         self.pushButtonPlayPause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
 
@@ -190,6 +187,7 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.lineEditTask.setEnabled(True)
         self.comboBoxLabel.setEnabled(True)
         self.setGeometry(*self.goal_geometry)
+        self.dialog.set_dropbox_geometry()
 
     def onPlot(self):
 
@@ -232,6 +230,7 @@ class TaskTimer(QtWidgets.QMainWindow):
         else:
             plt.close("all")
         self.setGeometry(*self.goal_geometry)
+        self.dialog.set_dropbox_geometry()
 
     def onKanban(self):
         if self.kanban.isVisible():
@@ -239,9 +238,9 @@ class TaskTimer(QtWidgets.QMainWindow):
             self.kanban.save_state()
         else:
             self.kanban.show()
-            print("kanban should update here")
             self.kanban.update_kanban()
         self.setGeometry(*self.goal_geometry)
+        self.dialog.set_dropbox_geometry()
 
     def setColor(self):
         p = self.palette()
