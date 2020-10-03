@@ -10,27 +10,20 @@ import pathlib
 import oyaml as yaml  # This preserves dictionary order in dumping
 
 from PyQt5 import QtCore
-from PyQt5.QtCore import QMimeData, QSize, Qt, pyqtSlot, pyqtSignal, Signal
-from PyQt5.QtGui import QBrush, QColor, QDrag, QFont, QIcon, QPixmap
+from PyQt5.QtCore import QSize, Qt, pyqtSlot
+from PyQt5.QtGui import QColor, QFont
 from PyQt5.QtWidgets import (
-    QAbstractItemView,
-    QApplication,
     QGridLayout,
     QHBoxLayout,
     QLabel,
     QListWidget,
     QListWidgetItem,
-    QMainWindow,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
 )
 
 
 class KanbanWindow(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-
         self.initUI()
 
     def initUI(self):
@@ -43,14 +36,11 @@ class KanbanWindow(QtWidgets.QWidget):
         screenGeom = QDesktopWidget().availableGeometry()
         sh = screenGeom.height()
         sw = screenGeom.width()
-        dx = 800
+        dx = 1200
         dy = 150
         y_offset = 700
         self.setGeometry(sw - dx + 100, sh - dy - y_offset, dx, dy)
-
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        #        self.setWindowFlag(Qt.FramelessWindowHint)
-        #        self.setGeometry(300, 350, 800, 500)
 
         self.columns = ["backlog", "todo", "doing", "done"]
         n_columns = len(self.columns)
@@ -60,7 +50,6 @@ class KanbanWindow(QtWidgets.QWidget):
         self.column_dict = {}
         for i, column in enumerate(self.columns):
             self.column_dict[column] = ColumnWidget(self)
-
             grid.addWidget(QLabel(column), 0, i)
             grid.addWidget(self.column_dict[column], 1, i)
 
@@ -88,13 +77,16 @@ class KanbanWindow(QtWidgets.QWidget):
                         item.setText(item_name)
                         item.setFont(QFont("DejaVu Sans", 10))
                         item.setSizeHint(QSize(60, 17))
-                        # item.setSizeHint(QSize(60, 35))
+                        # item.setColor("r")
+                        if key == "backlog":
+                            item.setForeground(QColor("gray"))
+                        if key == "doing":
+                            item.setFont(QFont("DejaVu Sans", 10, QFont.Bold))
                         item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
                         item.setToolTip(item_name)
 
                         self.column_dict[key].insertItem(i, item)
 
-        
         # add template item to backlog
         item = QListWidgetItem()
         item.setText("")
@@ -102,8 +94,8 @@ class KanbanWindow(QtWidgets.QWidget):
         item.setSizeHint(QSize(60, 15))
         item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
 
-        n_backlog_items = len(kanban_columndicts['backlog'])
-        self.column_dict['backlog'].insertItem( n_backlog_items, item)
+        n_backlog_items = len(kanban_columndicts["backlog"])
+        self.column_dict["backlog"].insertItem(n_backlog_items, item)
 
     @pyqtSlot()
     def save_state(self):
@@ -124,10 +116,10 @@ class KanbanWindow(QtWidgets.QWidget):
             yaml.safe_dump(
                 output_dict, file_dump, default_flow_style=False, line_break="\r"
             )
-        print("Saved kanban state")
+        # print("Saved kanban state")
 
     def closeEvent(self, event):
-        print("closing kanban")
+        # print("closing kanban")
         self.save_state()
 
 
@@ -141,4 +133,3 @@ class ColumnWidget(QListWidget):
     def dropEvent(self, event):
         super().dropEvent(event)
         event.setDropAction(QtCore.Qt.MoveAction)
-

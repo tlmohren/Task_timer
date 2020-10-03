@@ -32,9 +32,7 @@ class TaskTimer(QtWidgets.QMainWindow):
             config_all = yaml.load(file_config, Loader=yaml.Loader)
 
         self.file_config = config_all[platform.node()]
-
         self.config_dict = load_config.load_config("config.yml")
-
         with open(self.config_dict["task_config"], "r") as f:
             self.config = json.load(f)
 
@@ -55,7 +53,6 @@ class TaskTimer(QtWidgets.QMainWindow):
         screenGeom = QDesktopWidget().availableGeometry()
         sh = screenGeom.height()
         sw = screenGeom.width()
-
         dx = 125
         dy = 130
         self.top = sh - y_offset
@@ -98,9 +95,7 @@ class TaskTimer(QtWidgets.QMainWindow):
         )
 
         self.dialog = todo_window.DropboxWindow()
-
         self.kanban = kanban_window.KanbanWindow()
-
         self.lineEditTimerEvent2()
 
         self.timer2 = QtCore.QTimer()
@@ -127,7 +122,8 @@ class TaskTimer(QtWidgets.QMainWindow):
             day_delta = self.date.dayOfWeek()
             monday_date = self.date.addDays(-day_delta + 1).toString("yyyy_MM_dd")
 
-            filename = "task_log_" + monday_date + ".csv"
+            # filename = "task_log_" + monday_date + ".csv"
+            filename = f"task_log_{monday_date}.csv"
             self.log_filename = self.config_dict["log_dir"].joinpath(filename)
 
             # read and append label
@@ -137,17 +133,12 @@ class TaskTimer(QtWidgets.QMainWindow):
                     label_cropped = self.labelBoxText[:18]
                 else:
                     label_cropped = self.labelBoxText
-
                 self.config["labels"].append(label_cropped)
-
-                # add new label option to dict
                 with open(self.config_dict.get("task_config"), "w") as outfile:
-                    # with open(self.config_filename, "w") as outfile:
                     json.dump(self.config, outfile, indent=2)
                     print("Adding label to config file")
 
         self.time = self.time.addSecs(-1)
-
         self.lineEditTask.setEnabled(False)
         self.comboBoxLabel.setEnabled(False)
 
@@ -190,47 +181,47 @@ class TaskTimer(QtWidgets.QMainWindow):
         self.dialog.set_dropbox_geometry()
 
     def onPlot(self):
-
         all_figs = matplotlib._pylab_helpers.Gcf.get_all_fig_managers()
-
         if len(all_figs) == 0:
-
             cols = self.config_dict["col"]
-
             file = analyze_log_functions.pick_mostrecent_log(
                 self.config_dict["log_dir"]
             )
-            df = analyze_log_functions.weekly_data_processing(file)
-
-            if not df.empty:
-                # find unique labels for color mapping
-                labels = df["Label"].unique()
-                label_dict = {}
-                for label, col in zip(labels, cols):
-                    label_dict[label] = col
-
-                fig, ax = plt.subplots(2, 2, squeeze=False, figsize=(10, 5))
-
-                analyze_log_functions.plot_week_tasks(ax[0, 0], df, label_dict)
-                analyze_log_functions.plot_time_spent_weekly(ax[0, 1], df, label_dict)
-                analyze_log_functions.plot_time_spent_daily(ax[1, 0], df, label_dict)
-                analyze_log_functions.plot_week_text(
-                    ax[1, 1], df, self.config["select_labels"], "Time worked"
-                )
-
-                fig.subplots_adjust(
-                    left=None,
-                    bottom=None,
-                    right=None,
-                    top=None,
-                    wspace=0.4,
-                    hspace=None,
-                )
-                fig.show()
+            select_labels = self.config["select_labels"]
+            self.plot_weeklog(file, cols, select_labels)
         else:
             plt.close("all")
         self.setGeometry(*self.goal_geometry)
         self.dialog.set_dropbox_geometry()
+
+    def plot_weeklog(self, file, cols, select_labels):
+        df = analyze_log_functions.weekly_data_processing(file)
+
+        if not df.empty:
+            # find unique labels for color mapping
+            labels = df["Label"].unique()
+            label_dict = {}
+            for label, col in zip(labels, cols):
+                label_dict[label] = col
+
+            fig, ax = plt.subplots(2, 2, squeeze=False, figsize=(10, 5))
+
+            analyze_log_functions.plot_week_tasks(ax[0, 0], df, label_dict)
+            analyze_log_functions.plot_time_spent_weekly(ax[0, 1], df, label_dict)
+            analyze_log_functions.plot_time_spent_daily(ax[1, 0], df, label_dict)
+            analyze_log_functions.plot_week_text(
+                ax[1, 1], df, select_labels, "Time worked"
+            )
+
+            fig.subplots_adjust(
+                left=None,
+                bottom=None,
+                right=None,
+                top=None,
+                wspace=0.4,
+                hspace=None,
+            )
+            fig.show()
 
     def onKanban(self):
         if self.kanban.isVisible():
